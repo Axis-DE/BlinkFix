@@ -1,0 +1,42 @@
+com/heypixel/heypixelmod/mixin/O/CapabilityTrackerMixin enabled f_84586_
+com/heypixel/heypixelmod/mixin/O/MixinClientHandshakePacketListenerImpl connection f_104522_
+com/heypixel/heypixelmod/mixin/O/MixinClientHandshakePacketListenerImpl minecraft f_104519_
+com/heypixel/heypixelmod/mixin/O/MixinConnection LOGGER f_129465_
+com/heypixel/heypixelmod/mixin/O/MixinEntity stuckSpeedMultiplier f_19865_
+com/heypixel/heypixelmod/mixin/O/MixinGameRenderer minecraft f_109059_
+com/heypixel/heypixelmod/mixin/O/MixinGameRenderer renderBuffers f_109064_
+com/heypixel/heypixelmod/mixin/O/MixinGui title f_93001_
+com/heypixel/heypixelmod/mixin/O/MixinGui titleTime f_93000_
+com/heypixel/heypixelmod/mixin/O/MixinGui titleFadeInTime f_92970_
+com/heypixel/heypixelmod/mixin/O/MixinGui titleStayTime f_92971_
+com/heypixel/heypixelmod/mixin/O/MixinGui titleFadeOutTime f_92972_
+com/heypixel/heypixelmod/mixin/O/MixinGui subtitle f_93002_
+com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer wasSprinting f_108603_
+com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer connection f_108617_
+com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer wasShiftKeyDown f_108602_
+com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer xLast f_108595_
+com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer yLast1 f_108596_
+com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer zLast f_108597_
+com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer yRotLast f_108598_
+com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer xRotLast f_108599_
+com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer positionReminder f_108604_
+com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer lastOnGround f_108600_
+com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer autoJumpEnabled f_108612_
+com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer minecraft f_108619_
+com/heypixel/heypixelmod/mixin/O/MixinPacketThreadUtils LOGGER f_131354_
+com/heypixel/heypixelmod/mixin/O/MixinTimer partialTick f_92518_
+com/heypixel/heypixelmod/mixin/O/MixinTimer lastMs f_92520_
+com/heypixel/heypixelmod/mixin/O/MixinTimer msPerTick f_92521_
+com/heypixel/heypixelmod/mixin/O/MixinTimer tickDelta f_92519_
+com/heypixel/heypixelmod/mixin/O/MixinVertexBuffer indexBufferId f_166860_
+com/heypixel/heypixelmod/mixin/O/CapabilityTrackerMixin setEnabled (Z)V m_84590_
+com/heypixel/heypixelmod/mixin/O/MixinConnection genericsFtw (Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;)V m_129517_
+com/heypixel/heypixelmod/mixin/O/MixinConnection sendPacket (Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketSendListener;)V m_129520_
+com/heypixel/heypixelmod/mixin/O/MixinEntity getViewXRot (F)F m_5686_
+com/heypixel/heypixelmod/mixin/O/MixinEntity getViewYRot (F)F m_5675_
+com/heypixel/heypixelmod/mixin/O/MixinEntity calculateViewVector (FF)Lnet/minecraft/world/phys/Vec3; m_20171_
+com/heypixel/heypixelmod/mixin/O/MixinEntity getViewVector (F)Lnet/minecraft/world/phys/Vec3; m_20252_
+com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer isControlledCamera ()Z m_108636_
+com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer sendIsSprintingIfNeeded ()V m_254869_
+com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer sendPosition ()V m_108640_
+com/heypixel/heypixelmod/mixin/O/MixinPlayerTabOverlay getNameForDisplay (Lnet/minecraft/client/multiplayer/PlayerInfo;)Lnet/minecraft/network/chat/Component; m_94549_
