@@ -14,7 +14,13 @@ import com.heypixel.heypixelmod.obsoverlay.modules.ModuleInfo;
    category = Category.MOVEMENT
 )
 public class NoJumpDelay extends Module {
-   @EventTarget
+    @EventTarget
+    public void onEnable() {
+        super.onEnable();
+        this.setSuffix("Blink");
+    }
+
+    @EventTarget
    public void onMotion(EventMotion e) {
       if (e.getType() == EventType.PRE) {
          ((LivingEntityAccessor)mc.player).setNoJumpDelay(0);

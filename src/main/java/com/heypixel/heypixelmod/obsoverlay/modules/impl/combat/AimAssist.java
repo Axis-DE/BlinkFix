@@ -73,6 +73,11 @@ public class AimAssist extends Module {
    public boolean working = false;
    public boolean slientaim = this.slient.currentValue;
 
+    @EventTarget
+     public void onEnable() {
+    super.onEnable();
+    this.setSuffix("Blink");
+}
    @EventTarget
    public void onMotion(EventRunTicks e) {
       if (e.getType() == EventType.PRE && mc.player != null) {

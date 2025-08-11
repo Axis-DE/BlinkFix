@@ -368,6 +368,7 @@ Writing Output: C:\Users\hp\Desktop\BlinkFix\build\reobfJar\output.jar
   com/heypixel/heypixelmod/obsoverlay/modules/impl/move/Blink$1.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/move/Blink.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/move/FastWeb.class
+  com/heypixel/heypixelmod/obsoverlay/modules/impl/move/JumpReset.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/move/LongJump.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/move/NoJumpDelay.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/move/NoSlow.class

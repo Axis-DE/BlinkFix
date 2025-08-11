@@ -52,6 +52,11 @@ public class AutoHeal extends Module {
    private boolean useItem = false;
    private boolean throwItem = false;
 
+    @EventTarget
+    public void onEnable() {
+        super.onEnable();
+        this.setSuffix("Blink");
+    }
    @EventTarget
    public void onMotion(EventMotion e) {
       if (e.getType() == EventType.PRE) {

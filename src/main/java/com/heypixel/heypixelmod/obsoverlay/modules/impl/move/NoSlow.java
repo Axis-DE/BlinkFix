@@ -15,6 +15,12 @@ import com.heypixel.heypixelmod.obsoverlay.values.impl.FloatValue;
    category = Category.MOVEMENT
 )
 public class NoSlow extends Module {
+    @EventTarget
+    public void onEnable() {
+        super.onEnable();
+        this.setSuffix("Blink");
+    }
+
    @EventTarget
    public void onSlow(EventSlowdown eventSlowdown) {
       if (mc.player.getUseItemRemainingTicks() % 2 != 0 && mc.player.getUseItemRemainingTicks() <= 30) {

@@ -176,6 +176,7 @@ public class Scaffold extends Module {
 
    @Override
    public void onEnable() {
+      this.setSuffix("Blink");
       if (mc.player != null) {
          this.oldSlot = mc.player.getInventory().selected;
          this.rots.set(mc.player.getYRot() - 180.0F, mc.player.getXRot());

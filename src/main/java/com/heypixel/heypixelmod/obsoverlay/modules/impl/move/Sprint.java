@@ -13,7 +13,13 @@ import com.heypixel.heypixelmod.obsoverlay.modules.ModuleInfo;
    category = Category.MOVEMENT
 )
 public class Sprint extends Module {
-   @EventTarget(0)
+
+    @EventTarget
+    public void onEnable() {
+        super.onEnable();
+        this.setSuffix("Blink"); // 启用时就显示 Blink
+    }
+    @EventTarget(0)
    public void onMotion(EventMotion e) {
       if (e.getType() == EventType.PRE) {
          mc.options.keySprint.setDown(true);

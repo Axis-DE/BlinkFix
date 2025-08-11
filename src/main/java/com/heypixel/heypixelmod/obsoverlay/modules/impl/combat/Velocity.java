@@ -51,7 +51,7 @@ import org.joml.Vector2d;
 @ModuleInfo(
    name = "Velocity",
    description = "Reduces knockback.",
-   category = Category.MOVEMENT
+   category = Category.COMBAT
 )
 public class Velocity extends Module {
    public BooleanValue log = ValueBuilder.create(this, "Logging").setDefaultBooleanValue(false).build().getBooleanValue();
@@ -103,7 +103,11 @@ public class Velocity extends Module {
       this.velocity = false;
       this.result = null;
    }
-
+   @EventTarget
+    public void onEnable() {
+        super.onEnable();
+        this.setSuffix("Blink"); // 启用时就显示 Blink
+    }
    @EventTarget
    public void onMotion(EventMotion eventMotion) {
       if (eventMotion.getType() == EventType.PRE) {

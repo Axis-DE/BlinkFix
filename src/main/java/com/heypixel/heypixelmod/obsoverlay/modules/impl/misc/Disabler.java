@@ -224,6 +224,12 @@ public class Disabler extends Module {
       }
    }
 
+    @EventTarget
+    public void onEnable() {
+        super.onEnable();
+        this.setSuffix("Blink");
+    }
+
    @EventTarget(3)
    public void duplicateRotPlaceDisabler(EventPacket e) {
       if (this.grimDuplicateRotPlace.currentValue && e.getType() == EventType.SEND && !e.isCancelled() && mc.player != null) {

@@ -46,6 +46,12 @@ public class KillSay extends Module {
    private final TimeHelper timer = new TimeHelper();
    Random random = new Random();
 
+    @EventTarget
+    public void onEnable() {
+        super.onEnable();
+        this.setSuffix("Blink");
+    }
+
    @EventTarget
    public void onRespawn(EventRespawn e) {
       attackedPlayers.clear();

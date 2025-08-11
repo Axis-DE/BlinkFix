@@ -1,6 +1,7 @@
 package com.heypixel.heypixelmod.obsoverlay.modules.impl.misc;
 
 import com.heypixel.heypixelmod.obsoverlay.Naven;
+import com.heypixel.heypixelmod.obsoverlay.events.api.EventTarget;
 import com.heypixel.heypixelmod.obsoverlay.modules.Category;
 import com.heypixel.heypixelmod.obsoverlay.modules.Module;
 import com.heypixel.heypixelmod.obsoverlay.modules.ModuleInfo;
@@ -41,7 +42,11 @@ public class Teams extends Module {
          return false;
       }
    }
-
+    @EventTarget
+    public void onEnable() {
+        super.onEnable();
+        this.setSuffix("Blink");
+    }
    public static String getTeam(Entity entity) {
       PlayerInfo playerInfo = mc.getConnection().getPlayerInfo(entity.getUUID());
       if (playerInfo == null) {

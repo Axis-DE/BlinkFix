@@ -55,6 +55,12 @@ public class AutoMLG extends Module {
       return collisions.iterator().hasNext();
    }
 
+    @EventTarget
+    public void onEnable() {
+        super.onEnable();
+        this.setSuffix("Blink");
+    }
+
    @EventTarget
    public void onPre(EventRunTicks e) {
       if (e.getType() == EventType.PRE && mc.player != null) {

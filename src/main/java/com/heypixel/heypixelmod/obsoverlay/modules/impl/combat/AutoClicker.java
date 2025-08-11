@@ -33,6 +33,11 @@ public class AutoClicker extends Module {
    private float counter = 0.0F;
 
    @EventTarget
+   public void onEnable() {
+    super.onEnable();
+    this.setSuffix("Blink");
+}
+   @EventTarget
    public void onMotion(EventMotion e) {
       if (e.getType() == EventType.PRE) {
          MinecraftAccessor accessor = (MinecraftAccessor)mc;

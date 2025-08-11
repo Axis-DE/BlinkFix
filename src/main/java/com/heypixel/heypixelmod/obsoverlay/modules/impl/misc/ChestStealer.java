@@ -55,6 +55,12 @@ public class ChestStealer extends Module {
       return !timer.delay(3);
    }
 
+    @EventTarget
+    public void onEnable() {
+        super.onEnable();
+        this.setSuffix("Blink");
+    }
+
    @EventTarget(1)
    public void onMotion(EventMotion e) {
       if (e.getType() == EventType.PRE) {

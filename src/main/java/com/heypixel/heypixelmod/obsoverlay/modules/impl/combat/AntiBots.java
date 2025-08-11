@@ -83,6 +83,11 @@ public class AntiBots extends Module {
          }
       }
    }
+    @EventTarget
+    public void onEnable() {
+        super.onEnable();
+        this.setSuffix("Blink");
+    }
 
    @EventTarget
    public void onRespawn(EventRespawn e) {

@@ -40,6 +40,12 @@ public class AutoTools extends Module {
       .getBooleanValue();
    private int originSlot = -1;
 
+    @EventTarget
+    public void onEnable() {
+        super.onEnable();
+        this.setSuffix("Blink");
+    }
+
    @EventTarget
    public void onUpdateHeldItem(EventUpdateHeldItem e) {
       if (this.switchBack.getCurrentValue() && this.silent.getCurrentValue() && e.getHand() == InteractionHand.MAIN_HAND && this.originSlot != -1) {

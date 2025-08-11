@@ -35,6 +35,12 @@ public class Spammer extends Module {
    private final List<BooleanValue> values = new ArrayList<>();
    private final TimeHelper timer = new TimeHelper();
 
+    @EventTarget
+    public void onEnable() {
+        super.onEnable();
+        this.setSuffix("Blink");
+    }
+
    @EventTarget
    public void onMotion(EventRunTicks e) {
       if (e.getType() == EventType.POST && this.timer.delay((double)this.delay.getCurrentValue())) {

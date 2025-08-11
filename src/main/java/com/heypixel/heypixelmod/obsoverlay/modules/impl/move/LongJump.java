@@ -36,8 +36,8 @@ public class LongJump extends Module {
    private boolean delayed = false;
    private boolean shouldDisableAndRelease = false;
    private boolean isUsingItem = false;
-   private boolean mouse4Pressed = false;
-   private boolean mouse5Pressed = false;
+   private boolean currentKeyK = false;
+   private boolean currentKeyL = false;
    private long delayStartTime = 0L;
    private int usedFireballCount = 0;
    private int receivedKnockbacks = 0;
@@ -119,6 +119,7 @@ public class LongJump extends Module {
 
    @Override
    public void onEnable() {
+      this.setSuffix("Blink");
       this.releaseAll();
       this.rotateTick = 0;
       this.enabled = true;
@@ -128,15 +129,15 @@ public class LongJump extends Module {
       this.isUsingItem = false;
       rotation = null;
       this.shouldDisableAndRelease = false;
-      this.mouse4Pressed = false;
-      this.mouse5Pressed = false;
+      this.currentKeyK = false;
+      this.currentKeyL = false;
       this.delayStartTime = 0L;
       this.usedFireballCount = 0;
       this.receivedKnockbacks = 0;
       this.initialFireballCount = 0;
       this.releasedKnockbacks = 0;
       this.knockbackPositions.clear();
-      ChatUtils.addChatMessage("§aLongJump enabled! Press Mouse4 to jump & use fireball, Mouse5 to release each knockback");
+      ChatUtils.addChatMessage("§a启用跳远！按K键跳跃使用火球，L键释放每次击退");
    }
 
    @Override
@@ -151,8 +152,8 @@ public class LongJump extends Module {
       rotation = null;
       this.isUsingItem = false;
       this.shouldDisableAndRelease = false;
-      this.mouse4Pressed = false;
-      this.mouse5Pressed = false;
+      this.currentKeyK = false;
+      this.currentKeyL = false;
       this.delayStartTime = 0L;
       this.usedFireballCount = 0;
       this.receivedKnockbacks = 0;
@@ -176,9 +177,9 @@ public class LongJump extends Module {
                this.enabled = false;
             }
 
-            boolean currentMouse4 = GLFW.glfwGetMouseButton(mc.getWindow().getWindow(), 3) == 1;
-            if (currentMouse4 && !this.mouse4Pressed) {
-               this.mouse4Pressed = true;
+             boolean currentKeyK = GLFW.glfwGetKey(mc.getWindow().getWindow(), GLFW.GLFW_KEY_K) == GLFW.GLFW_PRESS;
+            if (currentKeyK && !this.currentKeyK) {
+               this.currentKeyK = true;
                if (!this.isUsingItem && this.rotateTick == 0) {
                   int fireballSlot = this.setupFireballSlot();
                   if (fireballSlot != -1) {
@@ -188,13 +189,13 @@ public class LongJump extends Module {
                      ChatUtils.addChatMessage("§eStarting fireball usage #" + (this.usedFireballCount + 1));
                   }
                }
-            } else if (!currentMouse4) {
-               this.mouse4Pressed = false;
+            } else if (!currentKeyK) {
+               this.currentKeyK = false;
             }
 
-            boolean currentMouse5 = GLFW.glfwGetMouseButton(mc.getWindow().getWindow(), 4) == 1;
-            if (currentMouse5 && !this.mouse5Pressed) {
-               this.mouse5Pressed = true;
+             boolean currentKeyL = GLFW.glfwGetKey(mc.getWindow().getWindow(), GLFW.GLFW_KEY_L) == GLFW.GLFW_PRESS;
+            if (currentKeyL && !this.currentKeyL) {
+               this.currentKeyL = true;
                if (this.delayed && this.releasedKnockbacks < this.receivedKnockbacks) {
                   ChatUtils.addChatMessage("§aReleasing " + (this.releasedKnockbacks + 1) + "/" + this.receivedKnockbacks);
                   this.releaseToKnockback(this.releasedKnockbacks);
@@ -210,8 +211,8 @@ public class LongJump extends Module {
                } else {
                   ChatUtils.addChatMessage("§cAll already released");
                }
-            } else if (!currentMouse5) {
-               this.mouse5Pressed = false;
+            } else if (!currentKeyL) {
+               this.currentKeyL = false;
             }
          }
       }
@@ -228,7 +229,7 @@ public class LongJump extends Module {
             long currentTime = System.currentTimeMillis();
             long delayDuration = currentTime - this.delayStartTime;
             statusText = String.format(
-               "§eIntercepting: %d packets | Time: %.1fs | Press Mouse5 (%d/%d)",
+               "§eIntercepting: %d packets | Time: %.1fs | Press currentKeyL (%d/%d)",
                packetCount,
                (float)delayDuration / 1000.0F,
                this.releasedKnockbacks,
@@ -237,7 +238,7 @@ public class LongJump extends Module {
          } else if (this.isUsingItem) {
             statusText = "§aUsing fireball #" + this.usedFireballCount;
          } else {
-            statusText = "§bWaiting for input | Mouse4: Jump & use fireball | Mouse5: Release";
+            statusText = "§bWaiting for input | currentKeyK: Jump & use fireball | currentKeyL: Release";
          }
 
          float textX = (float)screenWidth / 2.0F - (float)mc.font.width(statusText) / 2.0F;
@@ -277,7 +278,7 @@ public class LongJump extends Module {
                this.packets.add(event.getPacket());
                this.delayed = true;
                this.delayStartTime = System.currentTimeMillis();
-               mc.execute(() -> ChatUtils.addChatMessage("§ePacket interception started, press Mouse5 to release each"));
+               mc.execute(() -> ChatUtils.addChatMessage("§ePacket interception started, press currentKeyL to release each"));
             }
          }
       } else {

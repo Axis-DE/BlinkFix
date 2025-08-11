@@ -34,6 +34,12 @@ public class ItemTracker extends Module {
    private final BooleanValue shared = ValueBuilder.create(this, "Shared").setDefaultBooleanValue(true).build().getBooleanValue();
    private final List<ItemTracker.TargetInfo> entityPositions = new CopyOnWriteArrayList<>();
 
+    @EventTarget
+    public void onEnable() {
+        super.onEnable();
+        this.setSuffix("Blink");
+    }
+
    @EventTarget
    public void update(EventRender e) {
       try {

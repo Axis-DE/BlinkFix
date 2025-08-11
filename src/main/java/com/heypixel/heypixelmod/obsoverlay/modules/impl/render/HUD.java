@@ -151,7 +151,7 @@ public class HUD extends Module {
       CustomTextRenderer font = Fonts.opensans;
       if (this.waterMark.getCurrentValue()) {
          e.getStack().pushPose();
-         String text = "BlinkFix-Nextgen| " + Version.getVersion() + " | Dick | " + StringUtils.split(mc.fpsString, " ")[0] + " FPS | " + format.format(new Date());
+         String text = "BlinkFix-Nextgen-20250811| " + Version.getVersion() + " | Dick | " + StringUtils.split(mc.fpsString, " ")[0] + " FPS | " + format.format(new Date());
          this.width = font.getWidth(text, (double)this.watermarkSize.getCurrentValue()) + 14.0F;
          this.watermarkHeight = (float)font.getHeight(true, (double)this.watermarkSize.getCurrentValue());
          StencilUtils.write(false);
