@@ -119,7 +119,7 @@ public class AimAssist extends Module {
          if (living instanceof BlinkingPlayer) {
             return false;
          } else {
-            AntiBots module = (AntiBots)Naven.getInstance().getModuleManager().getModule(AntiBots.class);
+            AntiBots module = (AntiBots) Naven.getInstance().getModuleManager().getModule(AntiBots.class);
             if (module == null || !module.isEnabled() || !AntiBots.isBot(entity) && !AntiBots.isBedWarsBot(entity)) {
                if (Teams.isSameTeam(living)) {
                   return false;

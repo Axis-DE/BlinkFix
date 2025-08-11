@@ -3,12 +3,15 @@ package com.heypixel.heypixelmod.obsoverlay.modules.impl.combat;
 import com.heypixel.heypixelmod.mixin.O.accessors.LocalPlayerAccessor;
 import com.heypixel.heypixelmod.obsoverlay.Naven;
 import com.heypixel.heypixelmod.obsoverlay.events.api.EventTarget;
+import com.heypixel.heypixelmod.obsoverlay.events.api.types.EventType;
 import com.heypixel.heypixelmod.obsoverlay.events.impl.EventHandlePacket;
 import com.heypixel.heypixelmod.obsoverlay.events.impl.EventRespawn;
 import com.heypixel.heypixelmod.obsoverlay.events.impl.EventRunTicks;
+import com.heypixel.heypixelmod.obsoverlay.events.impl.EventStrafe;
 import com.heypixel.heypixelmod.obsoverlay.modules.Category;
 import com.heypixel.heypixelmod.obsoverlay.modules.Module;
 import com.heypixel.heypixelmod.obsoverlay.modules.ModuleInfo;
+import com.heypixel.heypixelmod.obsoverlay.modules.impl.move.LongJump;
 import com.heypixel.heypixelmod.obsoverlay.modules.impl.move.Scaffold;
 import com.heypixel.heypixelmod.obsoverlay.utils.ChatUtils;
 import com.heypixel.heypixelmod.obsoverlay.utils.rotation.Rotation;
@@ -116,7 +119,6 @@ import java.util.concurrent.LinkedBlockingDeque;
         return null;
     }
     public void onEnable() {
-        this.setSuffix("Blink");
         reset();
     }
 
@@ -131,18 +133,25 @@ import java.util.concurrent.LinkedBlockingDeque;
     }
 
     @EventTarget
+    public void onStrafe(EventStrafe event) {reset(); }
+
+    @EventTarget
     public void onWorld(EventRespawn eventRespawn) {
         reset();
     }
     @EventTarget
-    public void onTick(EventRunTicks eventRunTicks) {
-
-        if (mc.player != null && mc.getConnection() != null && mc.gameMode != null) {
+    public void onTick(EventRunTicks eventRunTicks) { if (mc.player != null && mc.getConnection() != null && mc.gameMode != null) {
 
         if (mc.player.tickCount < 20) {
-                reset();
-                return;
-            }
+            reset();
+            return;
+        }
+        if (mc.player == null || mc.getConnection() == null || mc.gameMode == null) return;
+
+        if (eventRunTicks.getType() == EventType.POST)
+            return;
+
+        if (Naven.getInstance().getModuleManager().getModule(LongJump.class).isEnabled()) return;
 
             if (mc.player.isDeadOrDying()
                     || !mc.player.isAlive()

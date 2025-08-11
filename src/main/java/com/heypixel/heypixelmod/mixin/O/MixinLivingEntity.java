@@ -61,13 +61,13 @@ public abstract class MixinLivingEntity extends Entity {
    private void hasEffect(MobEffect pEffect, CallbackInfoReturnable<Boolean> cir) {
       LivingEntity thisEntity = (LivingEntity)(Object)this;
       if (thisEntity == Minecraft.getInstance().player) {
-         FullBright fullBright = (FullBright)Naven.getInstance().getModuleManager().getModule(FullBright.class);
+         FullBright fullBright = (FullBright) Naven.getInstance().getModuleManager().getModule(FullBright.class);
          if (pEffect == MobEffects.NIGHT_VISION && fullBright.isEnabled()) {
             cir.setReturnValue(true);
             cir.cancel();
          }
 
-         AntiNausea antiNausea = (AntiNausea)Naven.getInstance().getModuleManager().getModule(AntiNausea.class);
+         AntiNausea antiNausea = (AntiNausea) Naven.getInstance().getModuleManager().getModule(AntiNausea.class);
          if (pEffect == MobEffects.CONFUSION && antiNausea.isEnabled()) {
             cir.setReturnValue(false);
             cir.cancel();

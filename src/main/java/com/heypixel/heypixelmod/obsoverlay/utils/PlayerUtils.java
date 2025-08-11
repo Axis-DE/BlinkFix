@@ -9,7 +9,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class PlayerUtils {
-   private static final Minecraft mc = Minecraft.getInstance();
+   public static final Minecraft mc = Minecraft.getInstance();
 
    public static boolean movementInput() {
       return mc.options.keyUp.isDown() || mc.options.keyDown.isDown() || mc.options.keyLeft.isDown() || mc.options.keyRight.isDown();

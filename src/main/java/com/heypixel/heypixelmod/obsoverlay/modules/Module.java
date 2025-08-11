@@ -83,7 +83,7 @@ public class Module extends HasValue {
             naven.getEventManager().register(this);
             this.onEnable();
             if (!(this instanceof ClickGUIModule)) {
-               HUD module = (HUD)Naven.getInstance().getModuleManager().getModule(HUD.class);
+               HUD module = (HUD) Naven.getInstance().getModuleManager().getModule(HUD.class);
                if (module.moduleToggleSound.getCurrentValue()) {
                   mc.player.playSound(SoundEvents.WOODEN_BUTTON_CLICK_ON, 0.5F, 1.3F);
                }
@@ -96,7 +96,7 @@ public class Module extends HasValue {
             naven.getEventManager().unregister(this);
             this.onDisable();
             if (!(this instanceof ClickGUIModule)) {
-               HUD module = (HUD)Naven.getInstance().getModuleManager().getModule(HUD.class);
+               HUD module = (HUD) Naven.getInstance().getModuleManager().getModule(HUD.class);
                if (module.moduleToggleSound.getCurrentValue()) {
                   mc.player.playSound(SoundEvents.WOODEN_BUTTON_CLICK_OFF, 0.5F, 0.8F);
                }

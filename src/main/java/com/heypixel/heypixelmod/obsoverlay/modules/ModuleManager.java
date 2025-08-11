@@ -17,6 +17,16 @@ import com.heypixel.heypixelmod.obsoverlay.modules.impl.misc.ItemTracker;
 import com.heypixel.heypixelmod.obsoverlay.modules.impl.misc.KillSay;
 import com.heypixel.heypixelmod.obsoverlay.modules.impl.misc.Spammer;
 import com.heypixel.heypixelmod.obsoverlay.modules.impl.misc.Teams;
+import com.heypixel.heypixelmod.obsoverlay.modules.impl.move.AutoMLG;
+import com.heypixel.heypixelmod.obsoverlay.modules.impl.move.Blink;
+import com.heypixel.heypixelmod.obsoverlay.modules.impl.move.FastWeb;
+import com.heypixel.heypixelmod.obsoverlay.modules.impl.move.LongJump;
+import com.heypixel.heypixelmod.obsoverlay.modules.impl.move.NoJumpDelay;
+import com.heypixel.heypixelmod.obsoverlay.modules.impl.move.NoSlow;
+import com.heypixel.heypixelmod.obsoverlay.modules.impl.move.SafeWalk;
+import com.heypixel.heypixelmod.obsoverlay.modules.impl.move.Scaffold;
+import com.heypixel.heypixelmod.obsoverlay.modules.impl.move.Sprint;
+import com.heypixel.heypixelmod.obsoverlay.modules.impl.move.Stuck;
 import com.heypixel.heypixelmod.obsoverlay.modules.impl.move.*;
 import com.heypixel.heypixelmod.obsoverlay.modules.impl.render.AntiBlindness;
 import com.heypixel.heypixelmod.obsoverlay.modules.impl.render.AntiNausea;
@@ -44,9 +54,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.heypixel.heypixelmod.obsoverlay.modules.impl.combat.AntiKB;
 import com.heypixel.heypixelmod.obsoverlay.modules.impl.combat.Critical;
-import cpw.mods.jarhandling.impl.Jar;
 import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -73,7 +81,6 @@ public class ModuleManager {
       this.registerModule(
               (Module) new Aura(),
               (Module) new HUD(),
-         new AntiKB(),
          new Velocity(),
          new NameTags(),
          new ChestStealer(),
@@ -121,6 +128,7 @@ public class ModuleManager {
          new NoSlow(),
          new LongJump(),
          new Critical(),
+         new AutoHeal(),
          new AutoHeal(),
          new JumpReset()
       );

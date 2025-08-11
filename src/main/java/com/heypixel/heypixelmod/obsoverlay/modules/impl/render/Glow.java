@@ -26,7 +26,7 @@ public class Glow extends Module {
    BooleanValue arrows = ValueBuilder.create(this, "Arrows").setDefaultBooleanValue(false).build().getBooleanValue();
 
    public static boolean shouldGlow(Entity entity) {
-      Glow module = (Glow)Naven.getInstance().getModuleManager().getModule(Glow.class);
+      Glow module = (Glow) Naven.getInstance().getModuleManager().getModule(Glow.class);
       if (!module.isEnabled()) {
          return false;
       } else if (entity instanceof Player && module.players.getCurrentValue()) {

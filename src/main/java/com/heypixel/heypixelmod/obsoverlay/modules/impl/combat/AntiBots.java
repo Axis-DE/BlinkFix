@@ -48,7 +48,7 @@ public class AntiBots extends Module {
       .getFloatValue();
 
    public static boolean isBedWarsBot(Entity entity) {
-      AntiBots module = (AntiBots)Naven.getInstance().getModuleManager().getModule(AntiBots.class);
+      AntiBots module = (AntiBots) Naven.getInstance().getModuleManager().getModule(AntiBots.class);
       if (module.respawnTimeValue.getCurrentValue() < 1.0F) {
          return false;
       } else {

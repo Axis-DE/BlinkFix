@@ -17,7 +17,7 @@ public class MixinCamera {
    )
    private void getMaxZoom(double pStartingDistance, CallbackInfoReturnable<Double> cir) {
       if (Naven.getInstance() != null && Naven.getInstance().getModuleManager() != null) {
-         ViewClip module = (ViewClip)Naven.getInstance().getModuleManager().getModule(ViewClip.class);
+         ViewClip module = (ViewClip) Naven.getInstance().getModuleManager().getModule(ViewClip.class);
          if (module.isEnabled()) {
             cir.setReturnValue(pStartingDistance * (double)module.scale.getCurrentValue() * (double)module.personViewAnimation.value / 100.0);
             cir.cancel();

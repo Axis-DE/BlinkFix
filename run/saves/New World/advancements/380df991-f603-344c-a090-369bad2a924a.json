@@ -158,10 +158,14 @@
   },
   "minecraft:adventure/kill_all_mobs": {
     "criteria": {
+<<<<<<< HEAD
+      "minecraft:creeper": "2025-08-10 19:20:12 +0800"
+=======
       "minecraft:creeper": "2025-08-10 19:20:12 +0800",
       "minecraft:slime": "2025-08-11 05:11:35 +0800",
       "minecraft:zombie": "2025-08-11 06:08:17 +0800",
       "minecraft:zombie_villager": "2025-08-11 06:08:13 +0800"
+>>>>>>> bac6275 (更新刀爆,更新搭路,更新LongJump,更新视觉以及更好的反击退)
     },
     "done": false
   },
@@ -189,6 +193,8 @@
     },
     "done": true
   },
+<<<<<<< HEAD
+=======
   "minecraft:recipes/misc/iron_nugget_from_smelting": {
     "criteria": {
       "has_iron_sword": "2025-08-11 05:11:05 +0800"
@@ -231,5 +237,6 @@
     },
     "done": true
   },
+>>>>>>> bac6275 (更新刀爆,更新搭路,更新LongJump,更新视觉以及更好的反击退)
   "DataVersion": 3465
 }

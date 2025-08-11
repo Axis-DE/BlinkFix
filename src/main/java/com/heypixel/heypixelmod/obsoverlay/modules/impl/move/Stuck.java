@@ -41,7 +41,6 @@ public class Stuck extends Module {
 
    @Override
    public void onEnable() {
-      this.setSuffix("Blink");
       this.stage = 0;
       this.packet = null;
       this.lastYaw = RotationManager.rotations.x;

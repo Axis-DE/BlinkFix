@@ -32,7 +32,7 @@ public class SpammerFile extends ClientFile {
 
    @Override
    public void read(BufferedReader reader) throws IOException {
-      Spammer module = (Spammer)Naven.getInstance().getModuleManager().getModule(Spammer.class);
+      Spammer module = (Spammer) Naven.getInstance().getModuleManager().getModule(Spammer.class);
       List<BooleanValue> values = module.getValues();
 
       String line;
@@ -49,7 +49,7 @@ public class SpammerFile extends ClientFile {
 
    @Override
    public void save(BufferedWriter writer) throws IOException {
-      Spammer module = (Spammer)Naven.getInstance().getModuleManager().getModule(Spammer.class);
+      Spammer module = (Spammer) Naven.getInstance().getModuleManager().getModule(Spammer.class);
 
       for (BooleanValue value : module.getValues()) {
          writer.write(value.getName() + "\n");

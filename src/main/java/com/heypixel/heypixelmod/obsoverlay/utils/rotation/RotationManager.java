@@ -50,12 +50,12 @@ public class RotationManager {
    @EventTarget(4)
    public void updateGlobalYaw(EventRunTicks e) {
       if (e.getType() == EventType.PRE && mc.player != null) {
-         Aura aura = (Aura)Naven.getInstance().getModuleManager().getModule(Aura.class);
-         Scaffold scaffold = (Scaffold)Naven.getInstance().getModuleManager().getModule(Scaffold.class);
-         AttackCrystal attackCrystal = (AttackCrystal)Naven.getInstance().getModuleManager().getModule(AttackCrystal.class);
-         AutoMLG autoMLG = (AutoMLG)Naven.getInstance().getModuleManager().getModule(AutoMLG.class);
-         AimAssist aimAssist = (AimAssist)Naven.getInstance().getModuleManager().getModule(AimAssist.class);
-         LongJump longJump = (LongJump)Naven.getInstance().getModuleManager().getModule(LongJump.class);
+         Aura aura = (Aura) Naven.getInstance().getModuleManager().getModule(Aura.class);
+         Scaffold scaffold = (Scaffold) Naven.getInstance().getModuleManager().getModule(Scaffold.class);
+         AttackCrystal attackCrystal = (AttackCrystal) Naven.getInstance().getModuleManager().getModule(AttackCrystal.class);
+         AutoMLG autoMLG = (AutoMLG) Naven.getInstance().getModuleManager().getModule(AutoMLG.class);
+         AimAssist aimAssist = (AimAssist) Naven.getInstance().getModuleManager().getModule(AimAssist.class);
+         LongJump longJump = (LongJump) Naven.getInstance().getModuleManager().getModule(LongJump.class);
          active = true;
          if (autoMLG.isEnabled() && autoMLG.rotation) {
             setRotations(new Vector2f(mc.player.getYRot(), 90.0F));
@@ -100,7 +100,7 @@ public class RotationManager {
             e.setPitch(pitch);
          }
 
-         Scaffold scaffold = (Scaffold)Naven.getInstance().getModuleManager().getModule(Scaffold.class);
+         Scaffold scaffold = (Scaffold) Naven.getInstance().getModuleManager().getModule(Scaffold.class);
          if (scaffold.isEnabled() && scaffold.mode.isCurrentMode("Normal") && scaffold.snap.getCurrentValue() && scaffold.hideSnap.getCurrentValue()) {
             animationRotation = scaffold.correctRotation;
          } else {

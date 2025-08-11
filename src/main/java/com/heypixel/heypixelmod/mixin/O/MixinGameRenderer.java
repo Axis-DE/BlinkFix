@@ -57,7 +57,7 @@ public class MixinGameRenderer {
       cancellable = true
    )
    private static void getNightVisionScale(LivingEntity pLivingEntity, float pNanoTime, CallbackInfoReturnable<Float> cir) {
-      FullBright module = (FullBright)Naven.getInstance().getModuleManager().getModule(FullBright.class);
+      FullBright module = (FullBright) Naven.getInstance().getModuleManager().getModule(FullBright.class);
       if (module.isEnabled()) {
          cir.setReturnValue(module.brightness.getCurrentValue());
          cir.cancel();
@@ -94,7 +94,7 @@ public class MixinGameRenderer {
       cancellable = true
    )
    private void bobHurt(PoseStack pMatrixStack, float pPartialTicks, CallbackInfo ci) {
-      NoHurtCam module = (NoHurtCam)Naven.getInstance().getModuleManager().getModule(NoHurtCam.class);
+      NoHurtCam module = (NoHurtCam) Naven.getInstance().getModuleManager().getModule(NoHurtCam.class);
       if (module.isEnabled()) {
          ci.cancel();
       }

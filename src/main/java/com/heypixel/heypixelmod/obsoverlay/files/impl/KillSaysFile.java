@@ -30,7 +30,7 @@ public class KillSaysFile extends ClientFile {
 
    @Override
    public void read(BufferedReader reader) throws IOException {
-      KillSay module = (KillSay)Naven.getInstance().getModuleManager().getModule(KillSay.class);
+      KillSay module = (KillSay) Naven.getInstance().getModuleManager().getModule(KillSay.class);
       List<BooleanValue> values = module.getValues();
 
       String line;
@@ -47,7 +47,7 @@ public class KillSaysFile extends ClientFile {
 
    @Override
    public void save(BufferedWriter writer) throws IOException {
-      KillSay module = (KillSay)Naven.getInstance().getModuleManager().getModule(KillSay.class);
+      KillSay module = (KillSay) Naven.getInstance().getModuleManager().getModule(KillSay.class);
 
       for (BooleanValue value : module.getValues()) {
          writer.write(value.getName() + "\n");

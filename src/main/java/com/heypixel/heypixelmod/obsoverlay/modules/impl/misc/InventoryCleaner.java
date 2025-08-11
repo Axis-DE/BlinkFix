@@ -236,27 +236,27 @@ public class InventoryCleaner extends Module {
    private boolean inventoryOpen = false;
 
    public static int getMaxBlockSize() {
-      return (int)((InventoryCleaner)Naven.getInstance().getModuleManager().getModule(InventoryCleaner.class)).maxBlockSize.getCurrentValue();
+      return (int)((InventoryCleaner) Naven.getInstance().getModuleManager().getModule(InventoryCleaner.class)).maxBlockSize.getCurrentValue();
    }
 
    public static boolean shouldKeepProjectile() {
-      return ((InventoryCleaner)Naven.getInstance().getModuleManager().getModule(InventoryCleaner.class)).keepProjectile.getCurrentValue();
+      return ((InventoryCleaner) Naven.getInstance().getModuleManager().getModule(InventoryCleaner.class)).keepProjectile.getCurrentValue();
    }
 
    public static int getMaxProjectileSize() {
-      return (int)((InventoryCleaner)Naven.getInstance().getModuleManager().getModule(InventoryCleaner.class)).maxProjectileSize.getCurrentValue();
+      return (int)((InventoryCleaner) Naven.getInstance().getModuleManager().getModule(InventoryCleaner.class)).maxProjectileSize.getCurrentValue();
    }
 
    public static int getMaxArrowSize() {
-      return (int)((InventoryCleaner)Naven.getInstance().getModuleManager().getModule(InventoryCleaner.class)).maxArrowSize.getCurrentValue();
+      return (int)((InventoryCleaner) Naven.getInstance().getModuleManager().getModule(InventoryCleaner.class)).maxArrowSize.getCurrentValue();
    }
 
    public static int getWaterBucketCount() {
-      return (int)((InventoryCleaner)Naven.getInstance().getModuleManager().getModule(InventoryCleaner.class)).waterBucketCount.getCurrentValue();
+      return (int)((InventoryCleaner) Naven.getInstance().getModuleManager().getModule(InventoryCleaner.class)).waterBucketCount.getCurrentValue();
    }
 
    public static int getLavaBucketCount() {
-      return (int)((InventoryCleaner)Naven.getInstance().getModuleManager().getModule(InventoryCleaner.class)).lavaBucketCount.getCurrentValue();
+      return (int)((InventoryCleaner) Naven.getInstance().getModuleManager().getModule(InventoryCleaner.class)).lavaBucketCount.getCurrentValue();
    }
 
    public boolean isItemUseful(ItemStack stack) {
