@@ -129,7 +129,6 @@ public class ModuleManager {
          new LongJump(),
          new Critical(),
          new AutoHeal(),
-         new AutoHeal(),
          new JumpReset()
       );
    }

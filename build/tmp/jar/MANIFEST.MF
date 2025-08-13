@@ -3,8 +3,8 @@ Specification-Title: Naven-Modern
 Specification-Vendor: YGTeam
 Specification-Version: 1
 Implementation-Title: BlinkFix
-Implementation-Version: YGnb
+Implementation-Version: BlinkFix
 Implementation-Vendor: YGTeam
-Implementation-Timestamp: 2025-08-11T12:45:42+0800
+Implementation-Timestamp: 2025-08-13T16:39:47+0800
 MixinConfigs: Naven-Modern.mixins.json
 

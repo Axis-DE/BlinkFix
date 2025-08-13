@@ -1,6 +1,5 @@
 package com.heypixel.heypixelmod.obsoverlay.modules.impl.misc;
 
-import by.radioegor146.nativeobfuscator.Native;
 import com.heypixel.heypixelmod.obsoverlay.events.api.EventTarget;
 import com.heypixel.heypixelmod.obsoverlay.events.api.types.EventType;
 import com.heypixel.heypixelmod.obsoverlay.events.impl.EventRunTicks;
