@@ -35,7 +35,7 @@ import org.joml.Vector4f;
 public class EffectDisplay extends Module {
    private List<Runnable> list;
    private final Map<MobEffect, EffectDisplay.MobEffectInfo> infos = new ConcurrentHashMap<>();
-   private final Color headerColor = new Color(150, 45, 45, 255);
+   private final Color headerColor = new Color(255, 255, 255, 255);
    private final Color bodyColor = new Color(0, 0, 0, 50);
    private final List<Vector4f> blurMatrices = new ArrayList<>();
 

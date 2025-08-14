@@ -40,7 +40,7 @@ public class Critical extends Module {
 
    @Override
    public void onEnable() {
-      this.setSuffix("Blink");
+      this.setSuffix("GrimFull");
       this.previousSlot = -1;
       this.lastSlot = -1;
       super.onEnable();

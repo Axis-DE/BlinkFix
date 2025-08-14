@@ -29,7 +29,6 @@ public class FastPlace extends Module {
     @EventTarget
     public void onEnable() {
         super.onEnable();
-        this.setSuffix("Blink");
     }
 
    @EventTarget

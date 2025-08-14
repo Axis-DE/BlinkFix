@@ -1,9 +1,9 @@
 {
   "required": true,
-  "minVersion": "0.8",
-  "package": "com.naven.mixin",
+  "package": "com.heypixel.heypixelmod.mixin.O.accessors",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "TitleScreenMixin"
-  ]
+    "EntityAccessor"
+  ],
+  "injectors": { "defaultRequire": 1 }
 }

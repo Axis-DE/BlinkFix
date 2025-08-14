@@ -5,123 +5,154 @@ import com.heypixel.heypixelmod.obsoverlay.Naven;
 import com.heypixel.heypixelmod.obsoverlay.events.api.EventTarget;
 import com.heypixel.heypixelmod.obsoverlay.events.api.types.EventType;
 import com.heypixel.heypixelmod.obsoverlay.events.impl.EventHandlePacket;
+import com.heypixel.heypixelmod.obsoverlay.events.impl.EventMotion;
 import com.heypixel.heypixelmod.obsoverlay.events.impl.EventRespawn;
 import com.heypixel.heypixelmod.obsoverlay.events.impl.EventRunTicks;
-import com.heypixel.heypixelmod.obsoverlay.events.impl.EventStrafe;
 import com.heypixel.heypixelmod.obsoverlay.modules.Category;
 import com.heypixel.heypixelmod.obsoverlay.modules.Module;
 import com.heypixel.heypixelmod.obsoverlay.modules.ModuleInfo;
 import com.heypixel.heypixelmod.obsoverlay.modules.impl.move.LongJump;
 import com.heypixel.heypixelmod.obsoverlay.modules.impl.move.Scaffold;
+import com.heypixel.heypixelmod.obsoverlay.utils.BlockUtils;
 import com.heypixel.heypixelmod.obsoverlay.utils.ChatUtils;
+import com.heypixel.heypixelmod.obsoverlay.utils.PlayerUtils;
 import com.heypixel.heypixelmod.obsoverlay.utils.rotation.Rotation;
-import com.heypixel.heypixelmod.obsoverlay.utils.rotation.RotationUtils;
+import com.heypixel.heypixelmod.obsoverlay.utils.rotation.RotationManager;
 import com.heypixel.heypixelmod.obsoverlay.values.ValueBuilder;
 import com.heypixel.heypixelmod.obsoverlay.values.impl.BooleanValue;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.DeathScreen;
 import net.minecraft.client.gui.screens.ProgressScreen;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.level.block.AirBlock;
+import net.minecraft.world.item.EnderpearlItem;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.network.protocol.Packet;
 
 import java.util.concurrent.LinkedBlockingDeque;
 
-@ModuleInfo(name = "AntiKB", description = "Reduces knockback.", category = Category.MOVEMENT)
+@ModuleInfo(
+        name = "AntiKB",
+        description = "Reduces knockback2Fix.",
+        category = Category.COMBAT
+)
+public class AntiKB extends Module {
 
-    public class AntiKB extends Module {
-    LinkedBlockingDeque<Packet> inBound = new LinkedBlockingDeque<>();
+    private static final Minecraft mc = Minecraft.getInstance();
+
+    LinkedBlockingDeque<Packet<ClientGamePacketListener>> inBound = new LinkedBlockingDeque<>();
     public static Stage stage = Stage.IDLE;
     public static int grimTick = -1;
     public static int debugTick = 10;
 
-
-    public enum Stage {
-        TRANSACTION,
-        ROTATION,
-        BLOCK,
-        IDLE
-    }
-
     public BooleanValue log = ValueBuilder.create(this, "Logging")
             .setDefaultBooleanValue(false)
-            .build()
-            .getBooleanValue();
+            .build().getBooleanValue();
+    public BooleanValue onlyGround = ValueBuilder.create(this, "OnlyGround")
+            .setDefaultBooleanValue(true)
+            .build().getBooleanValue();
 
-    public void reset() {
-        if (mc.getConnection() == null) return;
+    Packet<?> velocityPacket;
+    private BlockHitResult result = null;
+    Scaffold.BlockPosWithFacing pos;
 
-        stage = Stage.IDLE;
-        grimTick = -1;
-        debugTick = 0;
-        processPackets(false);
+    private boolean shouldAvoidInteraction(Block block) {
+        return block instanceof ChestBlock
+                || block instanceof CraftingTableBlock
+                || block instanceof FurnaceBlock
+                || block instanceof EnderChestBlock
+                || block instanceof BarrelBlock
+                || block instanceof ShulkerBoxBlock
+                || block instanceof AnvilBlock
+                || block instanceof EnchantmentTableBlock
+                || block instanceof BrewingStandBlock
+                || block instanceof BeaconBlock
+                || block instanceof HopperBlock
+                || block instanceof DispenserBlock
+                || block instanceof DropperBlock
+                || block instanceof LecternBlock
+                || block instanceof CartographyTableBlock
+                || block instanceof FletchingTableBlock
+                || block instanceof SmithingTableBlock
+                || block instanceof StonecutterBlock
+                || block instanceof LoomBlock
+                || block instanceof GrindstoneBlock
+                || block instanceof ComposterBlock
+                || block instanceof CauldronBlock
+                || block instanceof BedBlock
+                || block instanceof DoorBlock
+                || block instanceof TrapDoorBlock
+                || block instanceof FenceGateBlock
+                || block instanceof ButtonBlock
+                || block instanceof LeverBlock
+                || block instanceof NoteBlock;
     }
 
-    Packet velocityPacket;
+    public void reset() {
+        if (mc.getConnection() != null) {
+            stage = Stage.IDLE;
+            grimTick = -1;
+            debugTick = 0;
+            processPackets();
+        }
+    }
 
-    public void processPackets(boolean succeed) {
+    public void processPackets() {
         ClientPacketListener connection = mc.getConnection();
-
+        Packet<ClientGamePacketListener> packet;
         if (connection == null) {
             inBound.clear();
-            return;
-        }
-
-        Packet<ClientGamePacketListener> packet;
-        if (!inBound.isEmpty() && succeed && inBound.getFirst() == velocityPacket) {
-            inBound.pollFirst();
-        }
-        while ((packet = inBound.poll()) != null) {
-            try {
-                packet.handle(connection);
-            } catch (Exception e) {
-                e.printStackTrace();
-                inBound.clear();
-                break;
+        } else {
+            while ((packet = inBound.poll()) != null) {
+                try {
+                    packet.handle(connection);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    inBound.clear();
+                    break;
+                }
             }
         }
     }
 
-    private BlockHitResult result = null;
-
-    Scaffold.BlockPosWithFacing pos;
-
     public Direction checkBlock(Vec3 baseVec, BlockPos bp) {
-        if (!(mc.level.getBlockState(bp).getBlock() instanceof AirBlock)) return null;
-        Vec3 center = new Vec3(bp.getX() + 0.5, bp.getY() + 0.5f, bp.getZ() + 0.5);
-        // for (Direction sbface : Direction.values()) {
-        Direction sbface = Direction.DOWN;
-        Vec3 hit = center.add(new Vec3(((double) sbface.getNormal().getX()) * 0.5, ((double) sbface.getNormal().getY()) * 0.5, ((double) sbface.getNormal().getZ()) * 0.5));
-        Vec3i baseBlock = bp.offset(sbface.getNormal());
-        BlockPos po = new BlockPos(baseBlock.getX(), baseBlock.getY(), baseBlock.getZ());
-// if (!mc.level.getBlockState(po).getBlock().defaultBlockState().isCollisionShapeFullBlock(mc.level, po))
-// continue;
-        if (!mc.level.getBlockState(po).entityCanStandOnFace(mc.level, po, mc.player, sbface)) {
-// continue;
+        if (!(mc.level.getBlockState(bp).getBlock() instanceof AirBlock)) {
+            return null;
+        }
+        Vec3 center = new Vec3(bp.getX() + 0.5, bp.getY() + 0.5, bp.getZ() + 0.5);
+        Direction face = Direction.DOWN;
+        Vec3 hit = center.add(
+                face.getNormal().getX() * 0.5,
+                face.getNormal().getY() * 0.5,
+                face.getNormal().getZ() * 0.5
+        );
+        Vec3i baseBlock = bp.offset(face.getNormal());
+        BlockPos targetPos = new BlockPos(baseBlock.getX(), baseBlock.getY(), baseBlock.getZ());
+        if (!mc.level.getBlockState(targetPos).entityCanStandOnFace(mc.level, targetPos, mc.player, face)) {
             return null;
         }
         Vec3 relevant = hit.subtract(baseVec);
-        if (relevant.lengthSqr() <= 4.5 * 4.5 && relevant.normalize().dot(
-                Vec3.atLowerCornerOf(sbface.getNormal()).normalize()
-        ) >= 0) {
-            pos = new Scaffold.BlockPosWithFacing(new BlockPos(baseBlock), sbface.getOpposite());
-// enumFacing = ;
-            return sbface.getOpposite();
+        if (relevant.lengthSqr() <= 20.25 &&
+                relevant.normalize().dot(new Vec3(face.getNormal().getX(), face.getNormal().getY(), face.getNormal().getZ()).normalize()) >= 0.0) {
+            this.pos = new Scaffold.BlockPosWithFacing(new BlockPos(baseBlock), face.getOpposite());
+            return face.getOpposite();
         }
-// }
         return null;
     }
+
+    @Override
     public void onEnable() {
         reset();
     }
 
+    @Override
     public void onDisable() {
         reset();
     }
@@ -133,39 +164,28 @@ import java.util.concurrent.LinkedBlockingDeque;
     }
 
     @EventTarget
-    public void onStrafe(EventStrafe event) {reset(); }
-
-    @EventTarget
     public void onWorld(EventRespawn eventRespawn) {
         reset();
     }
+
     @EventTarget
-    public void onTick(EventRunTicks eventRunTicks) { if (mc.player != null && mc.getConnection() != null && mc.gameMode != null) {
-
-        if (mc.player.tickCount < 20) {
-            reset();
-            return;
-        }
-        if (mc.player == null || mc.getConnection() == null || mc.gameMode == null) return;
-
-        if (eventRunTicks.getType() == EventType.POST)
-            return;
-
-        if (Naven.getInstance().getModuleManager().getModule(LongJump.class).isEnabled()) return;
+    public void onTick(EventRunTicks eventRunTicks) {
+        if (mc.player != null && mc.getConnection() != null && mc.gameMode != null &&
+                eventRunTicks.getType() != EventType.POST &&
+                !Naven.getInstance().getModuleManager().getModule(LongJump.class).isEnabled()) {
 
             if (mc.player.isDeadOrDying()
                     || !mc.player.isAlive()
-                    || mc.player.getHealth() <= 0
+                    || mc.player.getHealth() <= 0.0F
                     || mc.screen instanceof ProgressScreen
                     || mc.screen instanceof DeathScreen) {
                 reset();
-                return;
             }
-            if (debugTick > 0) {
-                debugTick--;
 
+            if (debugTick > 0) {
+                --debugTick;
                 if (debugTick == 0) {
-                    processPackets(false);
+                    processPackets();
                     stage = Stage.IDLE;
                 }
             } else {
@@ -173,127 +193,127 @@ import java.util.concurrent.LinkedBlockingDeque;
             }
 
             if (grimTick > 0) {
-                grimTick--;
+                --grimTick;
             }
 
-            if (mc.player.isUsingItem()) {
-                grimTick = -1;
-                processPackets(false);
-            }
+            float yaw = RotationManager.rotations.getX();
+            float pitch = 89.79F;
+            BlockHitResult rayTraceResult = (BlockHitResult) PlayerUtils.pickCustom(3.7, yaw, pitch);
 
-            if (grimTick < 9 && grimTick > 0) {
-                Vec3 baseVec = mc.player.getEyePosition().add(
-                        mc.player.getDeltaMovement()
+            if (stage == Stage.TRANSACTION && grimTick == 0 && rayTraceResult != null
+                    && !BlockUtils.isAirBlock(rayTraceResult.getBlockPos())
+                    && mc.player.getBoundingBox().intersects(new AABB(rayTraceResult.getBlockPos()))) {
+
+                Block targetBlock = mc.level.getBlockState(rayTraceResult.getBlockPos()).getBlock();
+                if (shouldAvoidInteraction(targetBlock)) return;
+
+                this.result = new BlockHitResult(
+                        rayTraceResult.getLocation(),
+                        rayTraceResult.getDirection(),
+                        rayTraceResult.getBlockPos(),
+                        false
                 );
-                BlockPos base = mc.player.blockPosition();
-                for (int x = -1; x <= 1; x++) {
-                    for (int z = -1; z <= 1; z++) {
-                        for (int y = -1; y <= 1; y++) {
-                            BlockPos newPos = base.offset(x, y, z);
-                            if (!mc.player.getBoundingBox().intersects(new AABB(newPos))) continue;
-                            Direction direction = checkBlock(baseVec, newPos);
-                            if (direction == null) continue;
 
-                            Rotation rotation = RotationUtils.getRotations(newPos, 0F);
-                            processPackets(true);
-                            ((LocalPlayerAccessor) mc.player).setYRotLast(rotation.getYaw());
-                            ((LocalPlayerAccessor) mc.player).setXRotLast(rotation.getPitch());
-                            mc.getConnection().send(new ServerboundMovePlayerPacket.Rot(rotation.getYaw(), rotation.getPitch(), mc.player.onGround()));
-                            result = new BlockHitResult(Scaffold.getVec3(pos.position(), direction), direction, pos.position(), false);
-                            mc.gameMode.useItemOn(mc.player, InteractionHand.MAIN_HAND, result);
-                            // 有待考量
-                            for (int i = 1; i <= 20; i++) {
-                                Naven.skipTasks.add(() -> {
-                                });
-                            }
-                            debugTick = 20;
+                ((LocalPlayerAccessor) mc.player).setYRotLast(yaw);
+                ((LocalPlayerAccessor) mc.player).setXRotLast(pitch);
+                RotationManager.setRotations(new Rotation(yaw, pitch).toVec2f());
 
-                            stage = Stage.BLOCK;
-                            grimTick = -1;
-                            return;
-                        }
-                    }
+                if (Aura.rotation != null) {
+                    Aura.rotation = new Rotation(yaw, pitch).toVec2f();
                 }
 
+                processPackets();
+                mc.player.connection.send(new ServerboundMovePlayerPacket.Rot(yaw, pitch, mc.player.onGround()));
+                mc.gameMode.useItemOn(mc.player, InteractionHand.MAIN_HAND, this.result);
+
+                Naven.skipTasks.add(() -> {});
+                for (int i = 2; i <= 100; ++i) {
+                    Naven.skipTasks.add(() -> {
+                        EventMotion event1 = new EventMotion(
+                                EventType.PRE,
+                                mc.player.position().x,
+                                mc.player.position().y,
+                                mc.player.position().z,
+                                yaw, pitch, mc.player.onGround()
+                        );
+                        Naven.getInstance().getRotationManager().onPre(event1);
+                        if (event1.getYaw() != yaw || event1.getPitch() != pitch) {
+                            mc.player.connection.send(new ServerboundMovePlayerPacket.Rot(event1.getYaw(), event1.getPitch(), mc.player.onGround()));
+                        }
+                    });
+                }
+
+                debugTick = 20;
+                stage = Stage.BLOCK;
+                grimTick = 0;
             }
         }
-
     }
 
     @EventTarget
     public void onPacket(EventHandlePacket e) {
+        if (mc.player != null && mc.getConnection() != null && mc.gameMode != null &&
+                !mc.player.isSpectator() &&
+                !Naven.getInstance().getModuleManager().getModule(LongJump.class).isEnabled()) {
 
-        if (mc.player == null || mc.getConnection() == null || mc.gameMode == null) return;
-
-        if (mc.player.tickCount < 20) {
-            reset();
-            return;
-        }
-
-        if (mc.player.isDeadOrDying()
-                || !mc.player.isAlive()
-                || mc.player.getHealth() <= 0
-                || mc.screen instanceof ProgressScreen
-                || mc.screen instanceof DeathScreen) {
-            reset();
-            return;
-        }
-
-        Packet<?> packet = e.getPacket();
-
-        if (packet instanceof ClientboundLoginPacket) {
-            reset();
-            return;
-        }
-
-        if (debugTick > 0 && mc.player.tickCount > 20) {
-            if (stage == Stage.BLOCK && packet instanceof ClientboundBlockUpdatePacket cbu) {
-                if (result != null && result.getBlockPos().equals(cbu.getPos())) {
-                    processPackets(false);
-                    Naven.skipTasks.clear();
-                    // ChatUtil.addChatMessage("debug tick reset at " + debugTick);
-                    debugTick = 0;
-                    result = null;
-                    return;
-                }
-            }
-
-            if (!(packet instanceof ClientboundSystemChatPacket)
-                    && !(packet instanceof ClientboundSetTimePacket)) {
-                e.setCancelled(true);
-                inBound.add((Packet<ClientGamePacketListener>) packet);
+            if (mc.player.tickCount < 20) {
+                reset();
                 return;
             }
-        }
 
-        double strength = 0;
-        if (packet instanceof ClientboundSetEntityMotionPacket velocity) {
-            if (velocity.getId() != mc.player.getId()) return;
-            if (mc.player.isInWater()) {
-                e.setCancelled(true);
-                // ChatUtil.addChatMessage("Ignore: Player in water!");
+            if (!mc.player.isDeadOrDying() && mc.player.isAlive() && mc.player.getHealth() > 0.0F
+                    && !(mc.screen instanceof ProgressScreen)
+                    && !(mc.screen instanceof DeathScreen)
+                    && (!onlyGround.getCurrentValue() || mc.player.onGround())) {
+
+                Packet<?> packet = e.getPacket();
+
+                if (packet instanceof ClientboundLoginPacket) {
+                    reset();
+                    return;
+                }
+
+                if (debugTick > 0 && mc.player.tickCount > 20) {
+                    if (stage == Stage.BLOCK && packet instanceof ClientboundBlockUpdatePacket cbu) {
+                        if (result != null && result.getBlockPos().equals(cbu.getPos())) {
+                            processPackets();
+                            Naven.skipTasks.clear();
+                            debugTick = 0;
+                            result = null;
+                            return;
+                        }
+                    }
+                    if (!(packet instanceof ClientboundSystemChatPacket)
+                            && !(packet instanceof ClientboundSetTimePacket)) {
+                        e.setCancelled(true);
+                        inBound.add((Packet<ClientGamePacketListener>) packet);
+                        return;
+                    }
+                }
+
+                if (packet instanceof ClientboundSetEntityMotionPacket velocityPacket) {
+                    if (velocityPacket.getId() != mc.player.getId()) return;
+
+                    if (velocityPacket.getXa() < 0 || mc.player.getMainHandItem().getItem() instanceof EnderpearlItem) {
+                        e.setCancelled(false);
+                        return;
+                    }
+
+                    grimTick = 2;
+                    debugTick = 100;
+                    stage = Stage.TRANSACTION;
+                    e.setCancelled(true);
+                }
             } else {
-                log("vel " + strength);
+                reset();
             }
-
-        }
-        // if (packet instanceof ClientboundExplodePacket explode) {
-// if (explode.getKnockbackX() == 0.0F || explode.getKnockbackY() == 0.0F || explode.getKnockbackZ() == 0.0F) {
-// return;
-// }
-//
-// strength = new Vec2(explode.getKnockbackX(), explode.getKnockbackZ()).length() * 1000;
-// ChatUtil.addChatMessage("explode " + strength);
-// }
-        if (strength >= 1000) {
-            velocityPacket = packet;
-            inBound.add((Packet) packet);
-            grimTick = 10;
-            debugTick = 10;
-            stage = Stage.TRANSACTION;
-            e.setCancelled(true);
-            return;
         }
     }
 
+    public enum Stage {
+        TRANSACTION,
+        ROTATION,
+        BLOCK,
+        IDLE
+    }
 }

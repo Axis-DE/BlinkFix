@@ -8,13 +8,17 @@ import com.heypixel.heypixelmod.obsoverlay.events.impl.*;
 import com.heypixel.heypixelmod.obsoverlay.modules.Category;
 import com.heypixel.heypixelmod.obsoverlay.modules.Module;
 import com.heypixel.heypixelmod.obsoverlay.modules.ModuleInfo;
+import com.heypixel.heypixelmod.obsoverlay.modules.impl.render.HUD;
 import com.heypixel.heypixelmod.obsoverlay.utils.*;
+import com.heypixel.heypixelmod.obsoverlay.utils.renderer.Fonts;
 import com.heypixel.heypixelmod.obsoverlay.utils.rotation.RotationUtils;
 import com.heypixel.heypixelmod.obsoverlay.values.ValueBuilder;
 import com.heypixel.heypixelmod.obsoverlay.values.impl.BooleanValue;
 import com.heypixel.heypixelmod.obsoverlay.values.impl.FloatValue;
 import com.heypixel.heypixelmod.obsoverlay.values.impl.ModeValue;
 import com.mojang.blaze3d.platform.InputConstants;
+
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.core.BlockPos;
@@ -22,6 +26,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -38,6 +43,8 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.HitResult.Type;
 import org.apache.commons.lang3.RandomUtils;
+import org.joml.Vector4f;
+
 
 @ModuleInfo(
    name = "Scaffold",
@@ -45,126 +52,109 @@ import org.apache.commons.lang3.RandomUtils;
    category = Category.MOVEMENT
 )
 public class Scaffold extends Module {
-   public static final List<Block> blacklistedBlocks = Arrays.asList(
-      Blocks.AIR,
-      Blocks.WATER,
-      Blocks.LAVA,
-      Blocks.ENCHANTING_TABLE,
-      Blocks.GLASS_PANE,
-      Blocks.GLASS_PANE,
-      Blocks.IRON_BARS,
-      Blocks.SNOW,
-      Blocks.COAL_ORE,
-      Blocks.DIAMOND_ORE,
-      Blocks.EMERALD_ORE,
-      Blocks.CHEST,
-      Blocks.TRAPPED_CHEST,
-      Blocks.TORCH,
-      Blocks.ANVIL,
-      Blocks.TRAPPED_CHEST,
-      Blocks.NOTE_BLOCK,
-      Blocks.JUKEBOX,
-      Blocks.TNT,
-      Blocks.GOLD_ORE,
-      Blocks.IRON_ORE,
-      Blocks.LAPIS_ORE,
-      Blocks.STONE_PRESSURE_PLATE,
-      Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE,
-      Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE,
-      Blocks.STONE_BUTTON,
-      Blocks.LEVER,
-      Blocks.TALL_GRASS,
-      Blocks.TRIPWIRE,
-      Blocks.TRIPWIRE_HOOK,
-      Blocks.RAIL,
-      Blocks.CORNFLOWER,
-      Blocks.RED_MUSHROOM,
-      Blocks.BROWN_MUSHROOM,
-      Blocks.VINE,
-      Blocks.SUNFLOWER,
-      Blocks.LADDER,
-      Blocks.FURNACE,
-      Blocks.SAND,
-      Blocks.CACTUS,
-      Blocks.DISPENSER,
-      Blocks.DROPPER,
-      Blocks.CRAFTING_TABLE,
-      Blocks.COBWEB,
-      Blocks.PUMPKIN,
-      Blocks.COBBLESTONE_WALL,
-      Blocks.OAK_FENCE,
-      Blocks.REDSTONE_TORCH,
-      Blocks.FLOWER_POT
-   );
-   public Vector2f correctRotation = new Vector2f();
-   public Vector2f rots = new Vector2f();
-   public Vector2f lastRots = new Vector2f();
-   private int offGroundTicks = 0;
-   public ModeValue mode = ValueBuilder.create(this, "Mode").setDefaultModeIndex(0).setModes("Normal", "Telly Bridge", "BlinkFixScaffold", "Keep Y").build().getModeValue();
-   public BooleanValue eagle = ValueBuilder.create(this, "Eagle")
-      .setDefaultBooleanValue(true)
-      .setVisibility(() -> this.mode.isCurrentMode("Normal"))
-      .build()
-      .getBooleanValue();
-   public BooleanValue sneak = ValueBuilder.create(this, "Sneak").setDefaultBooleanValue(true).build().getBooleanValue();
-   public BooleanValue snap = ValueBuilder.create(this, "Snap")
-      .setDefaultBooleanValue(true)
-      .setVisibility(() -> this.mode.isCurrentMode("Normal"))
-      .build()
-      .getBooleanValue();
-   public BooleanValue hideSnap = ValueBuilder.create(this, "Hide Snap Rotation")
-      .setDefaultBooleanValue(true)
-      .setVisibility(() -> this.mode.isCurrentMode("Normal") && this.snap.getCurrentValue())
-      .build()
-      .getBooleanValue();
-   public BooleanValue renderItemSpoof = ValueBuilder.create(this, "Render Item Spoof").setDefaultBooleanValue(true).build().getBooleanValue();
-   public BooleanValue keepFoV = ValueBuilder.create(this, "Keep Fov").setDefaultBooleanValue(true).build().getBooleanValue();
-   FloatValue fov = ValueBuilder.create(this, "Fov")
-      .setDefaultFloatValue(1.15F)
-      .setMaxFloatValue(2.0F)
-      .setMinFloatValue(1.0F)
-      .setFloatStep(0.05F)
-      .setVisibility(() -> this.keepFoV.getCurrentValue())
-      .build()
-      .getFloatValue();
-   int oldSlot;
-   private Scaffold.BlockPosWithFacing pos;
-   private int lastSneakTicks;
-   public int baseY = -1;
+    public static final List<Block> blacklistedBlocks = Arrays.asList(
+            Blocks.AIR,
+            Blocks.WATER,
+            Blocks.LAVA,
+            Blocks.ENCHANTING_TABLE,
+            Blocks.GLASS_PANE,
+            Blocks.GLASS_PANE,
+            Blocks.IRON_BARS,
+            Blocks.SNOW,
+            Blocks.COAL_ORE,
+            Blocks.DIAMOND_ORE,
+            Blocks.EMERALD_ORE,
+            Blocks.CHEST,
+            Blocks.TRAPPED_CHEST,
+            Blocks.TORCH,
+            Blocks.ANVIL,
+            Blocks.TRAPPED_CHEST,
+            Blocks.NOTE_BLOCK,
+            Blocks.JUKEBOX,
+            Blocks.TNT,
+            Blocks.GOLD_ORE,
+            Blocks.IRON_ORE,
+            Blocks.LAPIS_ORE,
+            Blocks.STONE_PRESSURE_PLATE,
+            Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE,
+            Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE,
+            Blocks.STONE_BUTTON,
+            Blocks.LEVER,
+            Blocks.TALL_GRASS,
+            Blocks.TRIPWIRE,
+            Blocks.TRIPWIRE_HOOK,
+            Blocks.RAIL,
+            Blocks.CORNFLOWER,
+            Blocks.RED_MUSHROOM,
+            Blocks.BROWN_MUSHROOM,
+            Blocks.VINE,
+            Blocks.SUNFLOWER,
+            Blocks.LADDER,
+            Blocks.FURNACE,
+            Blocks.SAND,
+            Blocks.CACTUS,
+            Blocks.DISPENSER,
+            Blocks.DROPPER,
+            Blocks.CRAFTING_TABLE,
+            Blocks.COBWEB,
+            Blocks.PUMPKIN,
+            Blocks.COBBLESTONE_WALL,
+            Blocks.OAK_FENCE,
+            Blocks.REDSTONE_TORCH,
+            Blocks.FLOWER_POT
+    );
+    public Vector2f correctRotation = new Vector2f();
+    public Vector2f rots = new Vector2f();
+    public Vector2f lastRots = new Vector2f();
+    private int offGroundTicks = 0;
+    public ModeValue mode = ValueBuilder.create(this, "Mode").setDefaultModeIndex(0).setModes(new String[]{"Normal", "Telly Bridge", "Keep Y"}).build().getModeValue();
+    public BooleanValue BlockDisplay = ValueBuilder.create(this, "BlockDisplay").setDefaultBooleanValue(true).build().getBooleanValue();
+    public BooleanValue eagle = ValueBuilder.create(this, "Eagle").setDefaultBooleanValue(true).setVisibility(() -> this.mode.isCurrentMode("Normal")).build().getBooleanValue();
+    public BooleanValue sneak = ValueBuilder.create(this, "Sneak").setDefaultBooleanValue(true).build().getBooleanValue();
+    public BooleanValue snap = ValueBuilder.create(this, "Snap").setDefaultBooleanValue(true).setVisibility(() -> this.mode.isCurrentMode("Normal")).build().getBooleanValue();
+    public BooleanValue hideSnap = ValueBuilder.create(this, "Hide Snap Rotation").setDefaultBooleanValue(true).setVisibility(() -> this.mode.isCurrentMode("Normal") && this.snap.getCurrentValue()).build().getBooleanValue();
+    public BooleanValue renderItemSpoof = ValueBuilder.create(this, "Render Item Spoof").setDefaultBooleanValue(true).build().getBooleanValue();
+    public BooleanValue keepFoV = ValueBuilder.create(this, "Keep FoV").setDefaultBooleanValue(true).build().getBooleanValue();
+    FloatValue fov = ValueBuilder.create(this, "FoV").setDefaultFloatValue(1.15F).setMaxFloatValue(2.0F).setMinFloatValue(1.0F).setFloatStep(0.05F).setVisibility(() -> this.keepFoV.getCurrentValue()).build().getFloatValue();
+    int oldSlot;
+    private BlockPosWithFacing pos;
+    private int lastSneakTicks;
+    public int baseY = -1;
+    private Vector4f blurMatrix;
 
-   public static boolean isValidStack(ItemStack stack) {
-      if (stack == null || !(stack.getItem() instanceof BlockItem) || stack.getCount() <= 1) {
-         return false;
-      } else if (!InventoryUtils.isItemValid(stack)) {
-         return false;
-      } else {
-         String string = stack.getDisplayName().getString();
-         if (string.contains("Click") || string.contains("点击")) {
-            return false;
-         } else if (stack.getItem() instanceof ItemNameBlockItem) {
-            return false;
-         } else {
-            Block block = ((BlockItem)stack.getItem()).getBlock();
-            if (block instanceof FlowerBlock) {
-               return false;
-            } else if (block instanceof BushBlock) {
-               return false;
-            } else if (block instanceof FungusBlock) {
-               return false;
-            } else if (block instanceof CropBlock) {
-               return false;
+    public static boolean isValidStack(ItemStack stack) {
+        if (stack != null && (stack.getItem() instanceof BlockItem && stack.getCount() > 1)) {
+            if (!InventoryUtils.isItemValid(stack)) {
+                return false;
             } else {
-               return block instanceof SlabBlock ? false : !blacklistedBlocks.contains(block);
+                String string = stack.getDisplayName().getString();
+                if (!string.contains("Click") && !string.contains("点击")) {
+                    if (stack.getItem() instanceof ItemNameBlockItem) {
+                        return false;
+                    } else {
+                        Block block = ((BlockItem) stack.getItem()).getBlock();
+                        if (block instanceof FlowerBlock) {
+                            return false;
+                        } else if (block instanceof BushBlock) {
+                            return false;
+                        } else if (block instanceof FungusBlock) {
+                            return false;
+                        } else if (block instanceof CropBlock) {
+                            return false;
+                        } else {
+                            return block instanceof SlabBlock ? false : !blacklistedBlocks.contains(block);
+                        }
+                    }
+                } else {
+                    return false;
+                }
             }
-         }
-      }
-   }
-
-   public static boolean isOnBlockEdge(float sensitivity) {
-      return !mc.level
-         .getCollisions(mc.player, mc.player.getBoundingBox().move(0.0, -0.5, 0.0).inflate((double)(-sensitivity), 0.0, (double)(-sensitivity)))
-         .iterator()
-         .hasNext();
+        } else {
+            return false;
+        }
+    }
+public static boolean isOnBlockEdge(float sensitivity) {
+      return !mc.level.getCollisions(mc.player, mc.player.getBoundingBox().move((double)0.0, (double)-0.5, (double)0.0).inflate((double)(-sensitivity), (double)0.0, (double)(-sensitivity))).iterator().hasNext();
    }
 
    @EventTarget
@@ -173,10 +163,39 @@ public class Scaffold extends Module {
          e.setFov(this.fov.getCurrentValue() + (float)PlayerUtils.getMoveSpeedEffectAmplifier() * 0.13F);
       }
    }
-
+    @EventTarget
+    public void onShader(EventShader e) {
+        if (this.blurMatrix != null && this.BlockDisplay.getCurrentValue()) {
+            RenderUtils.drawRoundedRect(e.getStack(), this.blurMatrix.x(), this.blurMatrix.y(), this.blurMatrix.z(), this.blurMatrix.w(), 3.0F, 1073741824);
+        }
+    }
+    @EventTarget
+    public void onRender(EventRender2D e) {
+        this.blurMatrix = null;
+        if (this.BlockDisplay.getCurrentValue()) {
+            e.getStack().pushPose();
+            int totalBlocks = 0;
+            for (ItemStack stack : mc.player.getInventory().items) {
+                if (!stack.isEmpty() && stack.getItem() instanceof BlockItem) {
+                    totalBlocks += stack.getCount();
+                }
+            }
+            float x = mc.getWindow().getGuiScaledWidth() / 2.0F;
+            float y = mc.getWindow().getGuiScaledHeight() / 2.0F + 50.0F;
+            float width = Math.max(Fonts.harmony.getWidth("Blocks: " + totalBlocks, 0.4F) + 10.0F, 60.0F);
+            this.blurMatrix = new Vector4f(x, y, width, 30.0F);
+            StencilUtils.write(false);
+            RenderUtils.drawRoundedRect(e.getStack(), x, y, width, 30.0F, 5.0F, HUD.headerColor);
+            StencilUtils.erase(true);
+            RenderUtils.fillBound(e.getStack(), x, y, width, 30.0F, HUD.bodyColor);
+            RenderUtils.fillBound(e.getStack(), x, y, width * (totalBlocks / 64.0F), 3.0F, HUD.headerColor);
+            StencilUtils.dispose();
+            Fonts.harmony.render(e.getStack(), "Blocks: " + totalBlocks, x + 5.0F, y + 10.0F, Color.WHITE, true, 0.35F);
+            e.getStack().popPose();
+        }
+    }
    @Override
    public void onEnable() {
-      this.setSuffix("Blink");
       if (mc.player != null) {
          this.oldSlot = mc.player.getInventory().selected;
          this.rots.set(mc.player.getYRot() - 180.0F, mc.player.getXRot());
@@ -263,13 +282,6 @@ public class Scaffold extends Module {
                this.lastSneakTicks = 0;
             }
          }
-          if (this.mode.isCurrentMode("BlinkFixScaffold")) {
-              mc.options.keyJump.setDown(PlayerUtils.movementInput() || isHoldingJump);
-              if (mc.player.onGround() && PlayerUtils.movementInput()) {
-                  this.rots.setX(RotationUtils.rotateToYaw(180.0F, this.rots.getX(), mc.player.getYRot()));
-                  this.lastRots.set(this.rots.getX(), this.rots.getY());
-                  return;
-              }
 
          if (this.mode.isCurrentMode("Telly Bridge")) {
             mc.options.keyJump.setDown(PlayerUtils.movementInput() || isHoldingJump);
@@ -278,7 +290,7 @@ public class Scaffold extends Module {
                this.lastRots.set(this.rots.getX(), this.rots.getY());
                return;
             }
-         }
+
           } else if (this.mode.isCurrentMode("Keep Y")) {
               mc.options.keyJump.setDown(PlayerUtils.movementInput() || isHoldingJump);
           } else {
@@ -322,9 +334,9 @@ public class Scaffold extends Module {
    }
 
    private boolean checkPlace(Scaffold.BlockPosWithFacing data) {
-      Vec3 center = new Vec3((double)data.position.getX() + 0.5, (double)((float)data.position.getY() + 0.5F), (double)data.position.getZ() + 0.5);
+      Vec3 center = new Vec3((double)data.position.getX() + (double)0.5, (double)((float)data.position.getY() + (double)0.5F), (double)data.position.getZ() + (double)0.5);
       Vec3 hit = center.add(
-         new Vec3((double)data.facing.getNormal().getX() * 0.5, (double)data.facing.getNormal().getY() * 0.5, (double)data.facing.getNormal().getZ() * 0.5)
+         new Vec3((double)data.facing.getNormal().getX() * (double)0.5, (double)data.facing.getNormal().getY() * (double)0.5, (double)data.facing.getNormal().getZ() * (double)0.5)
       );
       Vec3 relevant = hit.subtract(mc.player.getEyePosition());
       return relevant.lengthSqr() <= 20.25 && relevant.normalize().dot(Vec3.atLowerCornerOf(data.facing.getNormal().multiply(-1)).normalize()) >= 0.0;
@@ -332,13 +344,13 @@ public class Scaffold extends Module {
 
    private void placeBlock() {
       if (this.pos != null && isValidStack(mc.player.getMainHandItem())) {
-         Direction sbFace = this.pos.facing();
+         Direction side = this.pos.facing();
          boolean isHoldingJump = InputConstants.isKeyDown(mc.getWindow().getWindow(), mc.options.keyJump.getKey().getValue());
-         if (sbFace != null
-            && (sbFace != Direction.UP || mc.player.onGround() || !PlayerUtils.movementInput() || isHoldingJump || this.mode.isCurrentMode("Normal"))
+         if (side != null
+            && (side != Direction.UP || mc.player.onGround() || !PlayerUtils.movementInput() || isHoldingJump || this.mode.isCurrentMode("Normal"))
             && this.shouldBuild()) {
             InteractionResult result = mc.gameMode
-               .useItemOn(mc.player, InteractionHand.MAIN_HAND, new BlockHitResult(getVec3(this.pos.position(), sbFace), sbFace, this.pos.position(), false));
+               .useItemOn(mc.player, InteractionHand.MAIN_HAND, new BlockHitResult(getVec3(this.pos.position(), side), side, this.pos.position(), false));
             if (result == InteractionResult.SUCCESS) {
                mc.player.swing(InteractionHand.MAIN_HAND);
                this.pos = null;
@@ -404,16 +416,16 @@ public class Scaffold extends Module {
       } else {
          Vec3 center = new Vec3((double)bp.getX() + 0.5, (double)((float)bp.getY() + 0.5F), (double)bp.getZ() + 0.5);
 
-         for (Direction sbface : Direction.values()) {
+         for (Direction side : Direction.values()) {
             Vec3 hit = center.add(
-               new Vec3((double)sbface.getNormal().getX() * 0.5, (double)sbface.getNormal().getY() * 0.5, (double)sbface.getNormal().getZ() * 0.5)
+               new Vec3((double)side.getNormal().getX() * 0.5, (double)side.getNormal().getY() * 0.5, (double)side.getNormal().getZ() * 0.5)
             );
-            Vec3i baseBlock = bp.offset(sbface.getNormal());
+            Vec3i baseBlock = bp.offset(side.getNormal());
             BlockPos po = new BlockPos(baseBlock.getX(), baseBlock.getY(), baseBlock.getZ());
-            if (mc.level.getBlockState(po).entityCanStandOnFace(mc.level, po, mc.player, sbface)) {
+            if (mc.level.getBlockState(po).entityCanStandOnFace(mc.level, po, mc.player, side)) {
                Vec3 relevant = hit.subtract(baseVec);
-               if (relevant.lengthSqr() <= 20.25 && relevant.normalize().dot(Vec3.atLowerCornerOf(sbface.getNormal()).normalize()) >= 0.0) {
-                  this.pos = new Scaffold.BlockPosWithFacing(new BlockPos(baseBlock), sbface.getOpposite());
+               if (relevant.lengthSqr() <= 20.25 && relevant.normalize().dot(Vec3.atLowerCornerOf(side.getNormal()).normalize()) >= 0.0) {
+                  this.pos = new Scaffold.BlockPosWithFacing(new BlockPos(baseBlock), side.getOpposite());
                   return true;
                }
             }

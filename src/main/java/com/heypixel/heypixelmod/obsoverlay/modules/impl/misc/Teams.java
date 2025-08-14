@@ -45,7 +45,6 @@ public class Teams extends Module {
     @EventTarget
     public void onEnable() {
         super.onEnable();
-        this.setSuffix("Blink");
     }
    public static String getTeam(Entity entity) {
       PlayerInfo playerInfo = mc.getConnection().getPlayerInfo(entity.getUUID());

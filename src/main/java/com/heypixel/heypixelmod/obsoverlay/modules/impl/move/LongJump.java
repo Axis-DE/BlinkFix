@@ -119,7 +119,6 @@ public class LongJump extends Module {
 
    @Override
    public void onEnable() {
-      this.setSuffix("Blink");
       this.releaseAll();
       this.rotateTick = 0;
       this.enabled = true;

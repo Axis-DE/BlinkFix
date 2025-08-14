@@ -72,12 +72,13 @@ import org.lwjgl.opengl.GL11;
 )
 public class Aura extends Module {
    private static final float[] targetColorRed = new float[]{0.78431374F, 0.0F, 0.0F, 0.23529412F};
-   private static final float[] targetColorGreen = new float[]{0.0F, 0.78431374F, 0.0F, 0.23529412F};
+   private static final float[] targetColorGreen = new float[]{1.0F, 1.0F, 1.0F, 0.5F};
    public static Entity target;
    public static Entity aimingTarget;
    public static List<Entity> targets = new ArrayList<>();
    public static Vector2f rotation;
    BooleanValue targetHud = ValueBuilder.create(this, "Target HUD").setDefaultBooleanValue(true).build().getBooleanValue();
+   BooleanValue Lockvisual = ValueBuilder.create(this, "Lockvisual").setDefaultBooleanValue(true).build().getBooleanValue();
    BooleanValue targetEsp = ValueBuilder.create(this, "Target ESP").setDefaultBooleanValue(true).build().getBooleanValue();
    BooleanValue attackPlayer = ValueBuilder.create(this, "Attack Player").setDefaultBooleanValue(true).build().getBooleanValue();
    BooleanValue attackInvisible = ValueBuilder.create(this, "Attack Invisible").setDefaultBooleanValue(false).build().getBooleanValue();
@@ -232,7 +233,7 @@ public class Aura extends Module {
       super.onDisable();
    }
 
-   @EventTarget
+    @EventTarget
    public void onRespawn(EventRespawn e) {
       target = null;
       aimingTarget = null;
@@ -246,68 +247,74 @@ public class Aura extends Module {
 
    @EventTarget
    public void onMotion(EventRunTicks event) {
-      if (event.getType() == EventType.PRE && mc.player != null) {
-         if (mc.screen instanceof AbstractContainerScreen
-            || Naven.getInstance().getModuleManager().getModule(Stuck.class).isEnabled()
-            || InventoryUtils.shouldDisableFeatures()) {
-            target = null;
-            aimingTarget = null;
-            this.rotationData = null;
-            rotation = null;
-            this.lastRotationData = null;
-            targets.clear();
-            return;
-         }
-
-         boolean isSwitch = this.switchSize.getCurrentValue() > 1.0F;
-         this.setSuffix(this.multi.getCurrentValue() ? "Blink": (isSwitch ? "Blink" : "Blink"));
-         this.updateAttackTargets();
-         aimingTarget = this.shouldPreAim();
-         this.lastRotationData = this.rotationData;
-         this.rotationData = null;
-         if (aimingTarget != null) {
-            this.rotationData = RotationUtils.getRotationDataToEntity(aimingTarget);
-            if (this.rotationData.getRotation() != null) {
-               rotation = this.rotationData.getRotation();
-            } else {
+       if (event.getType() == EventType.PRE && mc.player != null) {
+           if (mc.screen instanceof AbstractContainerScreen
+                   || Naven.getInstance().getModuleManager().getModule(Stuck.class).isEnabled()
+                   || InventoryUtils.shouldDisableFeatures()) {
+               target = null;
+               aimingTarget = null;
+               this.rotationData = null;
                rotation = null;
-            }
-         }
+               this.lastRotationData = null;
+               targets.clear();
+               return;
+           }
 
-         if (targets.isEmpty()) {
-            target = null;
-            return;
-         }
+           boolean isSwitch = this.switchSize.getCurrentValue() > 1.0F;
+           this.setSuffix(this.multi.getCurrentValue() ? "Multi" : (isSwitch ? "Switch" : "Single"));
+           this.updateAttackTargets();
+           aimingTarget = this.shouldPreAim();
+           this.lastRotationData = this.rotationData;
+           this.rotationData = null;
 
-         if (this.index > targets.size() - 1) {
-            this.index = 0;
-         }
-
-         if (targets.size() > 1
-            && ((float)this.attackTimes >= this.switchAttackTimes.getCurrentValue() || this.rotationData != null && this.rotationData.getDistance() > 3.0)) {
-            this.attackTimes = 0;
-
-            for (int i = 0; i < targets.size(); i++) {
-               this.index++;
-               if (this.index > targets.size() - 1) {
-                  this.index = 0;
+           if (aimingTarget != null) {
+               this.rotationData = RotationUtils.getRotationDataToEntity(aimingTarget);
+               if (this.rotationData.getRotation() != null) {
+                   rotation = this.rotationData.getRotation();
+                   if (this.Lockvisual.getCurrentValue()) {
+                       mc.player.setYRot(rotation.x);
+                       mc.player.setXRot(rotation.y);
+                       mc.player.yHeadRot = rotation.x; // 头部方向
+                       mc.player.yBodyRot = rotation.x; // 身体方向
+                   }
+               } else {
+                   rotation = null;
                }
+           }
 
-               Entity nextTarget = targets.get(this.index);
-               RotationUtils.Data data = RotationUtils.getRotationDataToEntity(nextTarget);
-               if (data.getDistance() < 3.0) {
-                  break;
+           if (targets.isEmpty()) {
+               target = null;
+               return;
+           }
+
+           if (this.index > targets.size() - 1) {
+               this.index = 0;
+           }
+
+           if (targets.size() > 1
+                   && ((float)this.attackTimes >= this.switchAttackTimes.getCurrentValue()
+                   || this.rotationData != null && this.rotationData.getDistance() > 3.0)) {
+               this.attackTimes = 0;
+               for (int i = 0; i < targets.size(); i++) {
+                   this.index++;
+                   if (this.index > targets.size() - 1) {
+                       this.index = 0;
+                   }
+                   Entity nextTarget = targets.get(this.index);
+                   RotationUtils.Data data = RotationUtils.getRotationDataToEntity(nextTarget);
+                   if (data.getDistance() < 3.0) {
+                       break;
+                   }
                }
-            }
-         }
+           }
 
-         if (this.index > targets.size() - 1 || !isSwitch) {
-            this.index = 0;
-         }
+           if (this.index > targets.size() - 1 || !isSwitch) {
+               this.index = 0;
+           }
 
-         target = targets.get(this.index);
-         this.attacks = this.attacks + this.aps.getCurrentValue() / 20.0F;
-      }
+           target = targets.get(this.index);
+           this.attacks += this.aps.getCurrentValue() / 20.0F;
+       }
    }
 
    @EventTarget

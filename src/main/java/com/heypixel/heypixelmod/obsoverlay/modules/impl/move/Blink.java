@@ -62,7 +62,7 @@ public class Blink extends Module {
    private final EntityArrowData arrowData = new EntityArrowData();
    private final BasicProjectileData eggData = new BasicProjectileData(Collections.singleton(ThrownEgg.class), new Color(255, 238, 154));
    private final BasicProjectileData snowballData = new BasicProjectileData(Collections.singleton(Snowball.class), new Color(255, 255, 255));
-   private static final int mainColor = new Color(150, 45, 45, 255).getRGB();
+   private static final int mainColor = new Color(85, 255, 255, 255).getRGB();
    public static final Set<Class<?>> whitelist = new HashSet<Class<?>>() {
       {
          this.add(ClientIntentionPacket.class);

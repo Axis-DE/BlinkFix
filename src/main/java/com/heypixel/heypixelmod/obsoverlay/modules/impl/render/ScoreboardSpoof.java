@@ -20,7 +20,7 @@ public class ScoreboardSpoof extends Module {
    public void onRenderScoreboard(EventRenderScoreboard e) {
       String string = e.getComponent().getString();
       if (string.contains("布吉岛")) {
-         MutableComponent textComponent = Component.literal("§d§l导吉吉");
+         MutableComponent textComponent = Component.literal("§d§l雷静岛");
          textComponent.setStyle(e.getComponent().getStyle());
          e.setComponent(textComponent);
       }
@@ -31,7 +31,7 @@ public class ScoreboardSpoof extends Module {
       String string = e.getComponent().getString();
       if (string.contains("布吉岛")) {
          if (e.getType() == EventType.HEADER) {
-            e.setComponent(Component.literal("§d§l导吉吉"));
+            e.setComponent(Component.literal("§d§l雷静岛"));
          } else if (e.getType() == EventType.FOOTER) {
             e.setComponent(Component.literal(""));
          }

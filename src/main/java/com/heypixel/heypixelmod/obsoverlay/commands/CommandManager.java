@@ -50,14 +50,14 @@ public class CommandManager {
          String chatMessage = e.getMessage().substring(".".length());
          String[] arguments = chatMessage.split(" ");
          if (arguments.length < 1) {
-            ChatUtils.addChatMessage("傻逼你的输入有误.");
+            ChatUtils.addChatMessage("傻逼雷静你的输入有误.");
             return;
          }
 
          String alias = arguments[0].toLowerCase();
          Command command = this.aliasMap.get(alias);
          if (command == null) {
-            ChatUtils.addChatMessage("傻逼你的输入有误.");
+            ChatUtils.addChatMessage("傻逼雷静你的输入有误.");
             return;
          }
 

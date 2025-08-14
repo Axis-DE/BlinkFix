@@ -19,6 +19,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.HitResult.Type;
 import org.antlr.v4.runtime.misc.OrderedHashSet;
+import org.apache.commons.lang3.RandomUtils;
 
 public class RotationUtils {
    private static final Minecraft mc = Minecraft.getInstance();
@@ -310,7 +311,34 @@ public class RotationUtils {
       return new Vec3(mc.player.getX(), mc.player.getY() + (double)mc.player.getEyeHeight(mc.player.getPose()), mc.player.getZ());
    }
 
-   public static class Data {
+    public static float rotateToPitch(float speed, float currentPitch, float targetPitch) {
+        float delta = Mth.wrapDegrees(targetPitch - currentPitch);
+        if (delta > speed) delta = speed;
+        if (delta < -speed) delta = -speed;
+        return currentPitch + delta;
+    }
+
+    /* ——可选重载：保留你原来那版带随机抖动的实现（如果别处用到了这个签名）——
+     * 参数形式：rotateToPitch(pitchSpeed, currentRots[yaw,pitch], calcPitch)
+     * 注意：需要你项目里已有 RandomUtils。
+     */
+    public static float rotateToPitch(float pitchSpeed, float[] currentRots, float calcPitch) {
+        // 先用上面的简单版做一步平滑（顺手加一点随机速度）
+        float pitch = rotateToPitch(
+                pitchSpeed + RandomUtils.nextFloat(0.0F, 15.0F),
+                currentRots[1],
+                calcPitch
+        );
+
+        // 若未完全到达目标，按你原逻辑增加轻微抖动
+        if (pitch != calcPitch) {
+            pitch += (float) (RandomUtils.nextFloat(1.0F, 2.0F)
+                    * Math.sin(currentRots[0] * Math.PI));
+        }
+        return pitch;
+    }
+
+    public static class Data {
       private final Vec3 eye;
       private final Vec3 hitVec;
       private final double distance;

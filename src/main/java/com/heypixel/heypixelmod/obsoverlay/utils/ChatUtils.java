@@ -5,7 +5,7 @@ import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.network.chat.Component;
 
 public class ChatUtils {
-   private static final String PREFIX = "§7[§b" + "BlinkFix" + "§7] ";
+   private static final String PREFIX = "§b[§f" + "BlinkFix" + "§b] ";
 
    public static void component(Component component) {
       ChatComponent chat = Minecraft.getInstance().gui.getChat();

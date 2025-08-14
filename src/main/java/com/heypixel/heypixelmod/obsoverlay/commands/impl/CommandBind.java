@@ -40,10 +40,10 @@ public class CommandBind extends Command {
                   }
                });
             } else {
-               ChatUtils.addChatMessage("傻逼你的输入有误.");
+               ChatUtils.addChatMessage("傻逼雷静你的输入有误.");
             }
          } catch (NoSuchModuleException var7) {
-            ChatUtils.addChatMessage("傻逼你的输入有误.");
+            ChatUtils.addChatMessage("傻逼雷静你的输入有误.");
          }
       } else if (args.length == 2) {
          String moduleName = args[0];
@@ -63,14 +63,14 @@ public class CommandBind extends Command {
                      ChatUtils.addChatMessage("Bound " + moduleName + " to " + keyName.toUpperCase() + ".");
                      Naven.getInstance().getFileManager().save();
                   } else {
-                     ChatUtils.addChatMessage("Invalid key.");
+                     ChatUtils.addChatMessage("傻逼雷静你的输入有误.");
                   }
                }
             } else {
-               ChatUtils.addChatMessage("Invalid module.");
+               ChatUtils.addChatMessage("傻逼雷静你的输入有误.");
             }
          } catch (NoSuchModuleException var6) {
-            ChatUtils.addChatMessage("Invalid module.");
+            ChatUtils.addChatMessage("傻逼雷静你的输入有误.");
          }
       } else {
          ChatUtils.addChatMessage("Usage: .bind <module> [key]");

@@ -123,6 +123,9 @@
       "getEntityHitResult(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;D)Lnet/minecraft/world/phys/EntityHitResult;": "Lnet/minecraft/world/entity/projectile/ProjectileUtil;m_37287_(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;D)Lnet/minecraft/world/phys/EntityHitResult;",
       "Lnet/minecraft/world/level/Level;getEntities(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;": "Lnet/minecraft/world/level/Level;m_6249_(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;"
     },
+    "com/heypixel/heypixelmod/mixin/O/accessors/EntityAccessor": {
+      "fallDistance": "f_19789_:F"
+    },
     "com/heypixel/heypixelmod/mixin/O/accessors/LivingEntityAccessor": {
       "DATA_EFFECT_COLOR_ID": "f_20962_:Lnet/minecraft/network/syncher/EntityDataAccessor;",
       "noJumpDelay": "f_20954_:I"
@@ -338,6 +341,9 @@
       "com/heypixel/heypixelmod/mixin/O/MixinProjectileUtil": {
         "getEntityHitResult(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;D)Lnet/minecraft/world/phys/EntityHitResult;": "Lnet/minecraft/world/entity/projectile/ProjectileUtil;m_37287_(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;D)Lnet/minecraft/world/phys/EntityHitResult;",
         "Lnet/minecraft/world/level/Level;getEntities(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;": "Lnet/minecraft/world/level/Level;m_6249_(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;"
+      },
+      "com/heypixel/heypixelmod/mixin/O/accessors/EntityAccessor": {
+        "fallDistance": "f_19789_:F"
       },
       "com/heypixel/heypixelmod/mixin/O/accessors/LivingEntityAccessor": {
         "DATA_EFFECT_COLOR_ID": "f_20962_:Lnet/minecraft/network/syncher/EntityDataAccessor;",

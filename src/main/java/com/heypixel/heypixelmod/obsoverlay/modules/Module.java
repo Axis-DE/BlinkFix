@@ -10,7 +10,7 @@ import com.heypixel.heypixelmod.obsoverlay.values.HasValue;
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundEvents;
 
-public class Module extends HasValue {
+public abstract class Module extends HasValue {
    protected static final Minecraft mc = Minecraft.getInstance();
    public static boolean update = true;
    private final SmoothAnimationTimer animation = new SmoothAnimationTimer(100.0F);
@@ -31,7 +31,8 @@ public class Module extends HasValue {
       this.setPrettyName();
    }
 
-   public void setSuffix(String suffix) {
+
+    public void setSuffix(String suffix) {
       if (suffix == null) {
          this.suffix = null;
          update = true;
@@ -88,7 +89,7 @@ public class Module extends HasValue {
                   mc.player.playSound(SoundEvents.WOODEN_BUTTON_CLICK_ON, 0.5F, 1.3F);
                }
 
-               Notification notification = new Notification(NotificationLevel.SUCCESS, this.name + " 模块被启用!", 3000L);
+               Notification notification = new Notification(NotificationLevel.SUCCESS, this.name + " 雷静模块被启用!", 3000L);
                naven.getNotificationManager().addNotification(notification);
             }
          } else {
@@ -101,7 +102,7 @@ public class Module extends HasValue {
                   mc.player.playSound(SoundEvents.WOODEN_BUTTON_CLICK_OFF, 0.5F, 0.8F);
                }
 
-               Notification notification = new Notification(NotificationLevel.ERROR, this.name + " 模块被禁用!", 3000L);
+               Notification notification = new Notification(NotificationLevel.ERROR, this.name + " 雷静模块被禁用!", 3000L);
                naven.getNotificationManager().addNotification(notification);
             }
          }
@@ -160,4 +161,5 @@ public class Module extends HasValue {
    public void setKey(int key) {
       this.key = key;
    }
+
 }

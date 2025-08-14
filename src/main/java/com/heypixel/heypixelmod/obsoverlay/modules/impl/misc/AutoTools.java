@@ -42,7 +42,6 @@ public class AutoTools extends Module {
     @EventTarget
     public void onEnable() {
         super.onEnable();
-        this.setSuffix("Blink");
     }
 
    @EventTarget

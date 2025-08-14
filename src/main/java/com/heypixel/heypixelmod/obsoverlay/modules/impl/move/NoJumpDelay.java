@@ -17,7 +17,6 @@ public class NoJumpDelay extends Module {
     @EventTarget
     public void onEnable() {
         super.onEnable();
-        this.setSuffix("Blink");
     }
 
     @EventTarget

@@ -41,7 +41,10 @@ public class RotationManager {
       RotationManager.rotations = rotations;
    }
 
-   @EventTarget
+    public static void setServerRotation(float smoothedYaw, float smoothedPitch) {
+    }
+
+    @EventTarget
    public void onRespawn(EventRespawn e) {
       lastRotations = null;
       rotations = null;

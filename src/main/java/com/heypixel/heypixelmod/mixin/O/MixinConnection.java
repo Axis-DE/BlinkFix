@@ -25,6 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin({Connection.class})
 public abstract class MixinConnection extends SimpleChannelInboundHandler<Packet<?>> {
+
    @Shadow
    @Final
    private static Logger LOGGER;

@@ -17,7 +17,6 @@ public class Sprint extends Module {
     @EventTarget
     public void onEnable() {
         super.onEnable();
-        this.setSuffix("Blink"); // 启用时就显示 Blink
     }
     @EventTarget(0)
    public void onMotion(EventMotion e) {
