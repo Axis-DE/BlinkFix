@@ -23,10 +23,10 @@ public class CommandToggle extends Command {
             if (module != null) {
                module.toggle();
             } else {
-               ChatUtils.addChatMessage("傻逼雷静你的输入有误.");
+               ChatUtils.addChatMessage("Stupid you entered it wrong.");
             }
          } catch (NoSuchModuleException var4) {
-            ChatUtils.addChatMessage("傻逼雷静你的输入有误.");
+            ChatUtils.addChatMessage("Stupid you entered it wrong.");
          }
       }
    }

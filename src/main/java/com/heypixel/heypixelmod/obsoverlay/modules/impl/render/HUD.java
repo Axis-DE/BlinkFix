@@ -33,7 +33,7 @@ import org.joml.Vector4f;
    category = Category.RENDER
 )
 public class HUD extends Module {
-   public static final int headerColor = new Color(85, 255, 255, 255).getRGB();
+   public static final int headerColor = new Color(0, 0, 170, 255).getRGB();
    public static final int bodyColor = new Color(0, 0, 0, 120).getRGB();
    public static final int backgroundColor = new Color(0, 0, 0, 40).getRGB();
    private static final SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
@@ -151,7 +151,7 @@ public class HUD extends Module {
       CustomTextRenderer font = Fonts.opensans;
       if (this.waterMark.getCurrentValue()) {
          e.getStack().pushPose();
-         String text = "Blink-Modern" + " | SBLeiJing | " + format.format(new Date());
+         String text = "Blink-Modern" + " | DevLog | " + format.format(new Date());
          this.width = font.getWidth(text, (double)this.watermarkSize.getCurrentValue()) + 14.0F;
          this.watermarkHeight = (float)font.getHeight(true, (double)this.watermarkSize.getCurrentValue());
          StencilUtils.write(false);

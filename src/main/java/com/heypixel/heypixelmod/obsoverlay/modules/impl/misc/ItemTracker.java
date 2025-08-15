@@ -6,11 +6,7 @@ import com.heypixel.heypixelmod.obsoverlay.events.impl.EventRender2D;
 import com.heypixel.heypixelmod.obsoverlay.modules.Category;
 import com.heypixel.heypixelmod.obsoverlay.modules.Module;
 import com.heypixel.heypixelmod.obsoverlay.modules.ModuleInfo;
-import com.heypixel.heypixelmod.obsoverlay.utils.EntityWatcher;
-import com.heypixel.heypixelmod.obsoverlay.utils.MathUtils;
-import com.heypixel.heypixelmod.obsoverlay.utils.ProjectionUtils;
-import com.heypixel.heypixelmod.obsoverlay.utils.SharedESPData;
-import com.heypixel.heypixelmod.obsoverlay.utils.Vector2f;
+import com.heypixel.heypixelmod.obsoverlay.utils.*;
 import com.heypixel.heypixelmod.obsoverlay.utils.renderer.Fonts;
 import com.heypixel.heypixelmod.obsoverlay.values.ValueBuilder;
 import com.heypixel.heypixelmod.obsoverlay.values.impl.BooleanValue;
@@ -46,8 +42,7 @@ public class ItemTracker extends Module {
       } catch (Exception var3) {
       }
    }
-
-   private void updatePositions(float renderPartialTicks) {
+    private void updatePositions(float renderPartialTicks) {
       this.entityPositions.clear();
 
       for (Entity entity : mc.level.entitiesForRendering()) {

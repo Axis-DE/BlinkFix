@@ -110,8 +110,7 @@ public class ModuleManager {
                 new SafeMode(),
                 new Critical(),
                 new AutoHeal(),
-                new NoFall(),
-                new Backtrack()
+                new NoFall()
         );
     }
 

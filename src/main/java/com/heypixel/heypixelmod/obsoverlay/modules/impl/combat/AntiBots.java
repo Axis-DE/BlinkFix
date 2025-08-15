@@ -101,7 +101,7 @@ public class AntiBots extends Module {
       if (e.getType() == EventType.PRE) {
          for (Entry<UUID, Long> entry : uuids.entrySet()) {
             if (System.currentTimeMillis() - entry.getValue() > 500L) {
-               ChatUtils.addChatMessage("检测到傻逼妖猫的雷静! (" + uuidDisplayNames.get(entry.getKey()) + ")");
+               ChatUtils.addChatMessage("Detected the stupid demon cat's bot! (" + uuidDisplayNames.get(entry.getKey()) + ")");
                uuids.remove(entry.getKey());
             }
          }
@@ -126,7 +126,7 @@ public class AntiBots extends Module {
             ClientboundAddPlayerPacket packet = (ClientboundAddPlayerPacket)e.getPacket();
             if (uuids.containsKey(packet.getPlayerId())) {
                String displayName = uuidDisplayNames.get(packet.getPlayerId());
-               ChatUtils.addChatMessage("检测到雷静! (" + displayName + ")");
+               ChatUtils.addChatMessage("Lei Jing was detected! (" + displayName + ")");
                entityIdDisplayNames.put(packet.getEntityId(), displayName);
                uuids.remove(packet.getPlayerId());
                ids.add(packet.getEntityId());
@@ -139,7 +139,7 @@ public class AntiBots extends Module {
                Integer entityId = (Integer)var9.next();
                if (ids.contains(entityId)) {
                   String displayName = entityIdDisplayNames.get(entityId);
-                  ChatUtils.addChatMessage("b雷静已被移除! (" + displayName + ")");
+                  ChatUtils.addChatMessage("Lei Jing has been removed! (" + displayName + ")");
                   ids.remove(entityId);
                }
             }

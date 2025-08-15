@@ -89,7 +89,7 @@ public abstract class Module extends HasValue {
                   mc.player.playSound(SoundEvents.WOODEN_BUTTON_CLICK_ON, 0.5F, 1.3F);
                }
 
-               Notification notification = new Notification(NotificationLevel.SUCCESS, this.name + " 雷静模块被启用!", 3000L);
+               Notification notification = new Notification(NotificationLevel.SUCCESS, this.name + " has Enabled!", 3000L);
                naven.getNotificationManager().addNotification(notification);
             }
          } else {
@@ -102,7 +102,7 @@ public abstract class Module extends HasValue {
                   mc.player.playSound(SoundEvents.WOODEN_BUTTON_CLICK_OFF, 0.5F, 0.8F);
                }
 
-               Notification notification = new Notification(NotificationLevel.ERROR, this.name + " 雷静模块被禁用!", 3000L);
+               Notification notification = new Notification(NotificationLevel.ERROR, this.name + " has Disabled!", 3000L);
                naven.getNotificationManager().addNotification(notification);
             }
          }
