@@ -259,6 +259,7 @@ Writing Output: D:\Src\BlinkFix-Modern\build\reobfJar\output.jar
   com/heypixel/heypixelmod/obsoverlay/commands/impl/CommandLanguage$1.class
   com/heypixel/heypixelmod/obsoverlay/commands/impl/CommandLanguage.class
   com/heypixel/heypixelmod/obsoverlay/commands/impl/CommandProxy.class
+  com/heypixel/heypixelmod/obsoverlay/commands/impl/CommandSetName.class
   com/heypixel/heypixelmod/obsoverlay/commands/impl/CommandToggle.class
   com/heypixel/heypixelmod/obsoverlay/events/
   com/heypixel/heypixelmod/obsoverlay/events/api/
@@ -345,7 +346,6 @@ Writing Output: D:\Src\BlinkFix-Modern\build\reobfJar\output.jar
   com/heypixel/heypixelmod/obsoverlay/modules/impl/combat/
   com/heypixel/heypixelmod/obsoverlay/modules/impl/combat/AimAssist.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/combat/AntiBots.class
-  com/heypixel/heypixelmod/obsoverlay/modules/impl/combat/AntiKB$Stage.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/combat/AntiKB.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/combat/AttackCrystal.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/combat/Aura.class
@@ -388,6 +388,7 @@ Writing Output: D:\Src\BlinkFix-Modern\build\reobfJar\output.jar
   com/heypixel/heypixelmod/obsoverlay/modules/impl/move/Sprint.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/move/Stuck.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/render/
+  com/heypixel/heypixelmod/obsoverlay/modules/impl/render/Animation.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/render/AntiBlindness.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/render/AntiNausea.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/render/ChestESP.class
