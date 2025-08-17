@@ -41,6 +41,7 @@
       "Lnet/minecraft/client/renderer/GameRenderer;render(FJZ)V": "Lnet/minecraft/client/renderer/GameRenderer;m_109093_(FJZ)V",
       "shouldEntityAppearGlowing": "Lnet/minecraft/client/Minecraft;m_91314_(Lnet/minecraft/world/entity/Entity;)Z",
       "Lnet/minecraft/client/player/LocalPlayer;isUsingItem()Z": "Lnet/minecraft/client/player/LocalPlayer;m_6117_()Z",
+      "clearLevel(Lnet/minecraft/client/gui/screens/Screen;)V": "Lnet/minecraft/client/Minecraft;m_91320_(Lnet/minecraft/client/gui/screens/Screen;)V",
       "tick": "Lnet/minecraft/client/Minecraft;m_91398_()V",
       "runTick": "Lnet/minecraft/client/Minecraft;m_91383_(Z)V",
       "handleKeybinds": "Lnet/minecraft/client/Minecraft;m_91279_()V"
@@ -49,9 +50,9 @@
       "getFieldOfViewModifier": "Lnet/minecraft/client/player/AbstractClientPlayer;m_108565_()F"
     },
     "com/heypixel/heypixelmod/mixin/O/MixinClientPacketListener": {
-      "Lnet/minecraft/client/telemetry/WorldSessionTelemetryManager;onPlayerInfoReceived(Lnet/minecraft/world/level/GameType;Z)V": "Lnet/minecraft/client/telemetry/WorldSessionTelemetryManager;m_260888_(Lnet/minecraft/world/level/GameType;Z)V",
       "Lnet/minecraft/network/Connection;send(Lnet/minecraft/network/protocol/Packet;)V": "Lnet/minecraft/network/Connection;m_129512_(Lnet/minecraft/network/protocol/Packet;)V",
       "handleLogin": "Lnet/minecraft/client/multiplayer/ClientPacketListener;m_5998_(Lnet/minecraft/network/protocol/game/ClientboundLoginPacket;)V",
+      "handleRespawn": "Lnet/minecraft/client/multiplayer/ClientPacketListener;m_7992_(Lnet/minecraft/network/protocol/game/ClientboundRespawnPacket;)V",
       "handleMovePlayer": "Lnet/minecraft/client/multiplayer/ClientPacketListener;m_5682_(Lnet/minecraft/network/protocol/game/ClientboundPlayerPositionPacket;)V"
     },
     "com/heypixel/heypixelmod/mixin/O/MixinFriendlyByteBuf": {
@@ -66,7 +67,8 @@
       "Lnet/minecraft/world/entity/player/Player;setSprinting(Z)V": "Lnet/minecraft/world/entity/player/Player;m_6858_(Z)V",
       "attack": "Lnet/minecraft/world/entity/player/Player;m_5706_(Lnet/minecraft/world/entity/Entity;)V",
       "Lnet/minecraft/world/entity/player/Player;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V": "Lnet/minecraft/world/entity/player/Player;m_20256_(Lnet/minecraft/world/phys/Vec3;)V",
-      "isStayingOnGroundSurface": "Lnet/minecraft/world/entity/player/Player;m_36343_()Z"
+      "isStayingOnGroundSurface": "Lnet/minecraft/world/entity/player/Player;m_36343_()Z",
+      "tick": "Lnet/minecraft/world/entity/player/Player;m_8119_()V"
     },
     "com/heypixel/heypixelmod/mixin/O/MixinClientHandshakePacketListenerImpl": {
       "Lnet/minecraft/network/Connection;setProtocol(Lnet/minecraft/network/ConnectionProtocol;)V": "Lnet/minecraft/network/Connection;m_129498_(Lnet/minecraft/network/ConnectionProtocol;)V",
@@ -260,6 +262,7 @@
         "Lnet/minecraft/client/renderer/GameRenderer;render(FJZ)V": "Lnet/minecraft/client/renderer/GameRenderer;m_109093_(FJZ)V",
         "shouldEntityAppearGlowing": "Lnet/minecraft/client/Minecraft;m_91314_(Lnet/minecraft/world/entity/Entity;)Z",
         "Lnet/minecraft/client/player/LocalPlayer;isUsingItem()Z": "Lnet/minecraft/client/player/LocalPlayer;m_6117_()Z",
+        "clearLevel(Lnet/minecraft/client/gui/screens/Screen;)V": "Lnet/minecraft/client/Minecraft;m_91320_(Lnet/minecraft/client/gui/screens/Screen;)V",
         "tick": "Lnet/minecraft/client/Minecraft;m_91398_()V",
         "runTick": "Lnet/minecraft/client/Minecraft;m_91383_(Z)V",
         "handleKeybinds": "Lnet/minecraft/client/Minecraft;m_91279_()V"
@@ -268,9 +271,9 @@
         "getFieldOfViewModifier": "Lnet/minecraft/client/player/AbstractClientPlayer;m_108565_()F"
       },
       "com/heypixel/heypixelmod/mixin/O/MixinClientPacketListener": {
-        "Lnet/minecraft/client/telemetry/WorldSessionTelemetryManager;onPlayerInfoReceived(Lnet/minecraft/world/level/GameType;Z)V": "Lnet/minecraft/client/telemetry/WorldSessionTelemetryManager;m_260888_(Lnet/minecraft/world/level/GameType;Z)V",
         "Lnet/minecraft/network/Connection;send(Lnet/minecraft/network/protocol/Packet;)V": "Lnet/minecraft/network/Connection;m_129512_(Lnet/minecraft/network/protocol/Packet;)V",
         "handleLogin": "Lnet/minecraft/client/multiplayer/ClientPacketListener;m_5998_(Lnet/minecraft/network/protocol/game/ClientboundLoginPacket;)V",
+        "handleRespawn": "Lnet/minecraft/client/multiplayer/ClientPacketListener;m_7992_(Lnet/minecraft/network/protocol/game/ClientboundRespawnPacket;)V",
         "handleMovePlayer": "Lnet/minecraft/client/multiplayer/ClientPacketListener;m_5682_(Lnet/minecraft/network/protocol/game/ClientboundPlayerPositionPacket;)V"
       },
       "com/heypixel/heypixelmod/mixin/O/MixinFriendlyByteBuf": {
@@ -285,7 +288,8 @@
         "Lnet/minecraft/world/entity/player/Player;setSprinting(Z)V": "Lnet/minecraft/world/entity/player/Player;m_6858_(Z)V",
         "attack": "Lnet/minecraft/world/entity/player/Player;m_5706_(Lnet/minecraft/world/entity/Entity;)V",
         "Lnet/minecraft/world/entity/player/Player;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V": "Lnet/minecraft/world/entity/player/Player;m_20256_(Lnet/minecraft/world/phys/Vec3;)V",
-        "isStayingOnGroundSurface": "Lnet/minecraft/world/entity/player/Player;m_36343_()Z"
+        "isStayingOnGroundSurface": "Lnet/minecraft/world/entity/player/Player;m_36343_()Z",
+        "tick": "Lnet/minecraft/world/entity/player/Player;m_8119_()V"
       },
       "com/heypixel/heypixelmod/mixin/O/MixinClientHandshakePacketListenerImpl": {
         "Lnet/minecraft/network/Connection;setProtocol(Lnet/minecraft/network/ConnectionProtocol;)V": "Lnet/minecraft/network/Connection;m_129498_(Lnet/minecraft/network/ConnectionProtocol;)V",

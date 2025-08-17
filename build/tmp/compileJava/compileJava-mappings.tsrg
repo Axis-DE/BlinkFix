@@ -1,6 +1,7 @@
 com/heypixel/heypixelmod/mixin/O/CapabilityTrackerMixin enabled f_84586_
 com/heypixel/heypixelmod/mixin/O/MixinClientHandshakePacketListenerImpl connection f_104522_
 com/heypixel/heypixelmod/mixin/O/MixinClientHandshakePacketListenerImpl minecraft f_104519_
+com/heypixel/heypixelmod/mixin/O/MixinClientPacketListener minecraft f_104888_
 com/heypixel/heypixelmod/mixin/O/MixinConnection LOGGER f_129465_
 com/heypixel/heypixelmod/mixin/O/MixinEntity stuckSpeedMultiplier f_19865_
 com/heypixel/heypixelmod/mixin/O/MixinGameRenderer minecraft f_109059_
@@ -39,4 +40,6 @@ com/heypixel/heypixelmod/mixin/O/MixinEntity getViewVector (F)Lnet/minecraft/wor
 com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer isControlledCamera ()Z m_108636_
 com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer sendIsSprintingIfNeeded ()V m_254869_
 com/heypixel/heypixelmod/mixin/O/MixinLocalPlayer sendPosition ()V m_108640_
+com/heypixel/heypixelmod/mixin/O/MixinMinecraft setScreen (Lnet/minecraft/client/gui/screens/Screen;)V m_91152_
+com/heypixel/heypixelmod/mixin/O/MixinMinecraft setInitialScreen (Lcom/mojang/realmsclient/client/RealmsClient;Lnet/minecraft/server/packs/resources/ReloadInstance;Lnet/minecraft/client/main/GameConfig$QuickPlayData;)V m_278684_
 com/heypixel/heypixelmod/mixin/O/MixinPlayerTabOverlay getNameForDisplay (Lnet/minecraft/client/multiplayer/PlayerInfo;)Lnet/minecraft/network/chat/Component; m_94549_

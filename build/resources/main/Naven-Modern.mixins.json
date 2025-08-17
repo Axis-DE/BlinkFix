@@ -37,6 +37,7 @@
     "MixinProjectileUtil",
     "MixinTimer",
     "MixinVertexBuffer",
+    "MixinPlayerInfo",
     "accessors.AbstractArrowAccessor",
     "accessors.BufferUploaderAccessor",
     "accessors.ClientboundMoveEntityPacketAccessor",

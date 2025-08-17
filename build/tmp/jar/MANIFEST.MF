@@ -5,6 +5,6 @@ Specification-Version: 1
 Implementation-Title: BlinkFix
 Implementation-Version: BlinkFix
 Implementation-Vendor: YGTeam
-Implementation-Timestamp: 2025-08-16T19:28:33+0800
+Implementation-Timestamp: 2025-08-17T16:35:33+0800
 MixinConfigs: Naven-Modern.mixins.json
 

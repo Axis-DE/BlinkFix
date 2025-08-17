@@ -139,6 +139,12 @@ Conflicting propagated mapping for com/heypixel/heypixelmod/obsoverlay/utils/Bli
 Conflicting propagated mapping for com/heypixel/heypixelmod/obsoverlay/utils/BlinkingPlayer/isCapeLoaded()Z from net/minecraft/client/player/AbstractClientPlayer/isCapeLoaded()Z: isCapeLoaded -> m_108555_
 Conflicting propagated mapping for com/heypixel/heypixelmod/obsoverlay/utils/BlinkingPlayer/isSkinLoaded()Z from net/minecraft/client/player/AbstractClientPlayer/isSkinLoaded()Z: isSkinLoaded -> m_108559_
 Conflicting propagated mapping for com/heypixel/heypixelmod/obsoverlay/utils/BlinkingPlayer/getSkinTextureLocation()Lnet/minecraft/resources/ResourceLocation; from net/minecraft/client/player/AbstractClientPlayer/getSkinTextureLocation()Lnet/minecraft/resources/ResourceLocation;: getSkinTextureLocation -> m_108560_
+Conflicting propagated mapping for dev/yalan/live/gui/LiveAuthenticationScreen/render(Lnet/minecraft/client/gui/GuiGraphics;IIF)V from net/minecraft/client/gui/screens/Screen/render(Lnet/minecraft/client/gui/GuiGraphics;IIF)V: render -> m_88315_
+Conflicting propagated mapping for dev/yalan/live/gui/LiveAuthenticationScreen/init()V from net/minecraft/client/gui/screens/Screen/init()V: init -> m_7856_
+Conflicting propagated mapping for dev/yalan/live/gui/LiveAuthenticationScreen/removed()V from net/minecraft/client/gui/screens/Screen/removed()V: removed -> m_7861_
+Conflicting propagated mapping for dev/yalan/live/gui/LiveAuthenticationScreen/tick()V from net/minecraft/client/gui/screens/Screen/tick()V: tick -> m_86600_
+Conflicting propagated mapping for dev/yalan/live/gui/LiveAuthenticationScreen/shouldCloseOnEsc()Z from net/minecraft/client/gui/screens/Screen/shouldCloseOnEsc()Z: shouldCloseOnEsc -> m_6913_
+Conflicting propagated mapping for dev/yalan/live/gui/LiveAuthenticationScreen/added()V from net/minecraft/client/gui/screens/Screen/added()V: added -> m_274333_
 Conflicting propagated mapping for com/heypixel/heypixelmod/obsoverlay/ui/ClickGUI/keyPressed(III)Z from net/minecraft/client/gui/screens/Screen/keyPressed(III)Z: keyPressed -> m_7933_
 Conflicting propagated mapping for com/heypixel/heypixelmod/obsoverlay/ui/ClickGUI/render(Lnet/minecraft/client/gui/GuiGraphics;IIF)V from net/minecraft/client/gui/screens/Screen/render(Lnet/minecraft/client/gui/GuiGraphics;IIF)V: render -> m_88315_
 Conflicting propagated mapping for com/heypixel/heypixelmod/obsoverlay/ui/ClickGUI/mouseScrolled(DDD)Z from net/minecraft/client/gui/components/events/ContainerEventHandler/mouseScrolled(DDD)Z: mouseScrolled -> m_6050_
@@ -220,6 +226,7 @@ Writing Output: D:\Src\BlinkFix-Modern\build\reobfJar\output.jar
   com/heypixel/heypixelmod/mixin/O/MixinMultiPlayerGameMode.class
   com/heypixel/heypixelmod/mixin/O/MixinPacketThreadUtils.class
   com/heypixel/heypixelmod/mixin/O/MixinPlayer.class
+  com/heypixel/heypixelmod/mixin/O/MixinPlayerInfo.class
   com/heypixel/heypixelmod/mixin/O/MixinPlayerTabOverlay.class
   com/heypixel/heypixelmod/mixin/O/MixinProjectileUtil.class
   com/heypixel/heypixelmod/mixin/O/MixinTimer.class
@@ -255,6 +262,7 @@ Writing Output: D:\Src\BlinkFix-Modern\build\reobfJar\output.jar
   com/heypixel/heypixelmod/obsoverlay/commands/impl/
   com/heypixel/heypixelmod/obsoverlay/commands/impl/CommandBind$1.class
   com/heypixel/heypixelmod/obsoverlay/commands/impl/CommandBind.class
+  com/heypixel/heypixelmod/obsoverlay/commands/impl/CommandChat.class
   com/heypixel/heypixelmod/obsoverlay/commands/impl/CommandConfig.class
   com/heypixel/heypixelmod/obsoverlay/commands/impl/CommandLanguage$1.class
   com/heypixel/heypixelmod/obsoverlay/commands/impl/CommandLanguage.class
@@ -356,6 +364,7 @@ Writing Output: D:\Src\BlinkFix-Modern\build\reobfJar\output.jar
   com/heypixel/heypixelmod/obsoverlay/modules/impl/combat/Backtrack.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/combat/Critical.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/combat/JumpReset.class
+  com/heypixel/heypixelmod/obsoverlay/modules/impl/combat/MoreKnockBack.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/combat/Velocity$Stage.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/combat/Velocity.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/misc/
@@ -365,11 +374,13 @@ Writing Output: D:\Src\BlinkFix-Modern\build\reobfJar\output.jar
   com/heypixel/heypixelmod/obsoverlay/modules/impl/misc/Disabler$UnableToFindFieldException.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/misc/Disabler.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/misc/FastPlace.class
+  com/heypixel/heypixelmod/obsoverlay/modules/impl/misc/GhostHand.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/misc/Helper.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/misc/InventoryCleaner.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/misc/ItemTracker$TargetInfo.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/misc/ItemTracker.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/misc/KillSay.class
+  com/heypixel/heypixelmod/obsoverlay/modules/impl/misc/Protocol.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/misc/SafeMode.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/misc/Spammer.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/misc/Teams.class
@@ -385,7 +396,9 @@ Writing Output: D:\Src\BlinkFix-Modern\build\reobfJar\output.jar
   com/heypixel/heypixelmod/obsoverlay/modules/impl/move/SafeWalk.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/move/Scaffold$BlockPosWithFacing.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/move/Scaffold.class
+  com/heypixel/heypixelmod/obsoverlay/modules/impl/move/Speed.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/move/Sprint.class
+  com/heypixel/heypixelmod/obsoverlay/modules/impl/move/StrafeFix.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/move/Stuck.class
   com/heypixel/heypixelmod/obsoverlay/modules/impl/render/
   com/heypixel/heypixelmod/obsoverlay/modules/impl/render/Animation.class
@@ -436,7 +449,6 @@ Writing Output: D:\Src\BlinkFix-Modern\build\reobfJar\output.jar
   com/heypixel/heypixelmod/obsoverlay/ui/ClickGUI$5.class
   com/heypixel/heypixelmod/obsoverlay/ui/ClickGUI$6.class
   com/heypixel/heypixelmod/obsoverlay/ui/ClickGUI.class
-  com/heypixel/heypixelmod/obsoverlay/ui/ClientEvents.class
   com/heypixel/heypixelmod/obsoverlay/ui/notification/
   com/heypixel/heypixelmod/obsoverlay/ui/notification/Notification.class
   com/heypixel/heypixelmod/obsoverlay/ui/notification/NotificationLevel.class
@@ -544,6 +556,38 @@ Writing Output: D:\Src\BlinkFix-Modern\build\reobfJar\output.jar
   com/yumegod/obfuscation/VMProtectMutation.class
   com/yumegod/obfuscation/VMProtectUltra.class
   com/yumegod/obfuscation/VMProtectVirtualization.class
+  dev/
+  dev/yalan/
+  dev/yalan/live/
+  dev/yalan/live/LiveClient$1.class
+  dev/yalan/live/LiveClient.class
+  dev/yalan/live/LiveComponent.class
+  dev/yalan/live/LiveReconnectionThread.class
+  dev/yalan/live/LiveUser$Level.class
+  dev/yalan/live/LiveUser.class
+  dev/yalan/live/events/
+  dev/yalan/live/events/EventLiveAuthenticationResult.class
+  dev/yalan/live/events/EventLiveChannelActive.class
+  dev/yalan/live/events/EventLiveChannelException.class
+  dev/yalan/live/events/EventLiveChannelInactive.class
+  dev/yalan/live/events/EventLiveConnectionStatus.class
+  dev/yalan/live/events/EventLiveGenericMessage.class
+  dev/yalan/live/gui/
+  dev/yalan/live/gui/LiveAuthenticationScreen.class
+  dev/yalan/live/netty/
+  dev/yalan/live/netty/LiveByteBuf.class
+  dev/yalan/live/netty/LiveProto$LivePacket.class
+  dev/yalan/live/netty/LiveProto.class
+  dev/yalan/live/netty/codec/
+  dev/yalan/live/netty/codec/FrameDecoder.class
+  dev/yalan/live/netty/codec/FrameEncoder.class
+  dev/yalan/live/netty/codec/crypto/
+  dev/yalan/live/netty/codec/crypto/AESDecoder.class
+  dev/yalan/live/netty/codec/crypto/AESEncoder.class
+  dev/yalan/live/netty/codec/crypto/RSADecoder.class
+  dev/yalan/live/netty/codec/crypto/RSAEncoder.class
+  dev/yalan/live/netty/handler/
+  dev/yalan/live/netty/handler/LiveHandler.class
   org/
   org/msgpack/
   org/msgpack/core/
